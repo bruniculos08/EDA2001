@@ -82,10 +82,11 @@ int smallestInteger(int *array, int arraySize){
 }
 
 int main(){
-    int *array;
-    array = (int*)malloc(sizeof(int)*4);
+    int array[4];
+    //array = (int*)malloc(sizeof(int)*4);
     array[0] = 1; array[1] = 3; array[2] = 2; array[3] = 10;
-    array = mergeSort(array, 4);
+
+    //Obs.: Caso o array seja declarado como um vetor não dinâmico (array[n]) o retorno da função deve ser feito dessa forma: *array = *mergeSort(array, 4);
     for(int i = 0; i < 4; i++) printf("%i ", array[i]);
     printf("\n");
     int smallest = smallestInteger(array, 4);
