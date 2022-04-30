@@ -39,22 +39,17 @@ int *merge(int *arrayOne, int *arrayTwo, int arraySizeOne, int arraySizeTwo){
     return newArray;
 }
 
-int smallestInteger(int *array, int arraySize){
-  int smallest = 1;
-  for(int i = 0; i < arraySize; i++){
-      if(array[i] == smallest) smallest++;
-  }
-  return smallest;
-}
-
 int *mergeSort(int *array, int arraySize){
-
-    // (1) Encontrar o ponto médio:
+    
+    // (1) Condição de parada:
+    if(arraySize == 1) return array;
+   
+    // (2) Encontrar o ponto médio:
     int half;
     if(arraySize%2 == 0) half = arraySize/2;
     else half = (arraySize/2)-1;
 
-    // (2) Dividir o vetor em 2:
+    // (3) Dividir o vetor em 2:
     int *arrayOne;
     int *arrayTwo;
     arrayOne = (int*)malloc(half*sizeof(int));
@@ -65,20 +60,34 @@ int *mergeSort(int *array, int arraySize){
         arrayTwo[i] = array[i+half];
     }
 
-    // (3) Chamar a função para cada um dos vetores:
+    // (4) Chamar a função para cada um dos vetores:
     arrayOne = mergeSort(arrayOne, half);
     arrayTwo = mergeSort(arrayTwo, arraySize-half);
 
-    // (4) Unir os dois vetores resultantes via merge:
+    // (5) Unir os dois vetores resultantes via merge:
     array = merge(arrayOne, arrayTwo, half, arraySize-half);
-    free(arrayOne);
-    free(arrayTwo);
+    //free(arrayOne);
+    //free(arrayTwo);
 
     return array;
 }
 
+int smallestInteger(int *array, int arraySize){
+  int smallest = 1;
+  for(int i = 0; i < arraySize; i++){
+      if(array[i] == smallest) smallest++;
+      else if(array[i] > smallest) return smallest;
+  }
+  return smallest;
+}
+
 int main(){
-    int array[] = {4,5,2,3,1};
-    *array = mergeSort(array, 5);
-    for(int i = 0; i < 5; i++) printf("%i ", array[i]);
+    int *array;
+    array = (int*)malloc(sizeof(int)*4);
+    array[0] = 1; array[1] = 4; array[2] = 2; array[3] = 3;
+    array = mergeSort(array, 4);
+    for(int i = 0; i < 4; i++) printf("%i ", array[i]);
+    printf("\n");
+    int smallest = smallestInteger(array, 4);
+    printf("Smallest = %i\n", smallest);
 }
