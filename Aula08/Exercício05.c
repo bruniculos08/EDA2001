@@ -1,18 +1,28 @@
 #include "stdlib.h"
 #include "stdio.h"
 
-int factorial(int n){
-    if(n > 1) return n*factorial(n-1);
-    else return 1;
-}
-
-int combination(int n, int p){
-    return factorial(n)/(factorial(p)*factorial(n-p))
+void permute(int array[], int size, int n)
+{
+  int tmp;
+  int i, j;
+  if (n == 1) {
+    for (i = 0; i < size; i++)
+      printf("%i ", array[i]);
+    putchar('\n');
+  } 
+  else {
+    for (i = 0; i < n; i++) {
+            permute(array, size, n - 1);
+            j = (n % 2 == 1) ? n - 1 : 0;
+            tmp = array[n - 1];
+            array[n - 1] = array[j];
+            array[j] = tmp;
+        }
+    }
 }
 
 // Essa função deve imprimir todas as possibilidades de ordem de um vetor:
 void arrayAll(int *array, int arraySize, int numberOfTwo){
-    int permutations = combination(arraySize, numberOfTwo);
 }
 
 void stairs(int stairsNumber){
@@ -64,5 +74,6 @@ void stairs(int stairsNumber){
 int main(){
     int array[] = {1, 2, 2, 1};
     int arraySize = sizeof(array)/sizeof(array[0]);
-    arrayAll(array, arraySize);
+    //arrayAll(array, arraySize);
+    permute(array, 4, 2);
 }
