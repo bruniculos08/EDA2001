@@ -15,6 +15,8 @@ void printArray(int array[], int arraySize){
     printf("\n");
 }
 
+// Sugestão: utilizar uma recursão semelhante a função de fibonacci.
+
 int stairs(int stairsNumber){
     // (1) Número de maneiras para se subir a escada:
     int ways = 0;
