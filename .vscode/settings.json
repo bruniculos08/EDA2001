@@ -1,5 +1,7 @@
 {
     "files.associations": {
         "stdlib.h": "c"
-    }
+    },
+    "editor.semanticHighlighting.enabled": false
+
 }
