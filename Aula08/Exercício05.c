@@ -43,7 +43,7 @@ int stairs(int stairsNumber){
         for(int i = result; i < rest+result; i++) array[i] = 1;
 
         // (4.4) Chama a função para imprimir todas as permutações do vetor:
-        printArray(array, result+rest);
+        //printArray(array, result+rest);
     
         // (4.5) Soma o número de permutações possíveis do vetor atual formado por 1's e 2's:
         ways += combination(result+rest, result);
@@ -55,7 +55,24 @@ int stairs(int stairsNumber){
     return ways;
 }
 
+// O procedimento recursivo consiste em pegar um conjunto de degraus dividir o degraus no seus em todas as suas possibilidades:
+int recursiveStairs(int n){
+    // (1) Para 1 degrau temos apenas uma possilidade e para 2 degraus temos duas possibilidades:
+    //if(n <= 2) return n;
+    if(n < 2) return 1;
+    // (2) note que numa escada primeiramente podemos andar 2 degraus (e teremos n-2 degraus restantes)...
+    // ... ou 1 degrau (pelo qual teremos n-1 degraus restantes):
+    return recursiveStairs(n-1) + recursiveStairs(n-2);
+    // Exemplo para n = 4:
+    // recursiveStairs(4) = recursiveStairs(3) + recursiveStairs(2) = recursiveStairs(2) + recursiveStairs(1) + 2 = 2 + 1 + 2 = 5
+    // - Note que a partir de 4 tem-se a possibilidade de se diminuir para 3 ou 2, de 2 só podemos ter 2 possibilidades,...
+    // ... porém de 3 podemos reduzir para as possibilidades de se diminuir um degrau ou se diminuir 2 degraus o que...
+    // ... resultará em 3 possibilidades.
+}
+
 int main(){
-    int n = stairs(1);
+    int n = stairs(3);
+    printf("%i\n", n);
+    n = recursiveStairs(3);
     printf("%i\n", n);
 }
