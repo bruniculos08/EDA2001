@@ -16,7 +16,7 @@ void encode(char string[], int stringSize){
 }
 
 int main(){
-    char string[] = "AABBCCAAEEEEEEDDEAABBBB";
+    char string[] = "AAAABBBCCDAA";
     int stringSize = sizeof(string)/sizeof(string[0]);
     encode(string, stringSize);
 }
