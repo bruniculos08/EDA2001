@@ -2,5 +2,11 @@
     "files.associations": {
         "stdlib.h": "c"
     },
-    "editor.semanticHighlighting.enabled": false
+    "editor.semanticHighlighting.enabled": "configuredByTheme",
+    "editor.semanticTokenColorCustomizations": {
+    
+    },
+    "[c]": {
+        "editor.semanticHighlighting.enabled": "configuredByTheme"
+    }
 }
