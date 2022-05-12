@@ -22,9 +22,8 @@ int pairs(int *array, int arraySize){
             tamanhoPares[indexTamanhoPares] = array[i];
             indexTamanhoPares++;
 
-            // 04. Calcular o número de pares:
-            pares = pares + (countNumber(array, arraySize, array[i])*(countNumber(array, arraySize, array[i])-1))/2;
-            
+            // 04. Ver é possível fazer um par:
+            if(countNumber(array, arraySize, array[i]) > 1) pares++;
         }
     }
     return pares;
