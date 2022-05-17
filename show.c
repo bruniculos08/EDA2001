@@ -2,34 +2,39 @@
 #include "stdio.h"
 #include "string.h"
 
-typedef struct Node node;
-struct Node {
-    table *item;
-    node *next;
-};
-
 typedef struct Table table;
 struct Table {
     char *token;
     int token_len;
+    table *next;
 };
 
-table *tabelaDeTokens = NULL;
+table *pilhaDeTokens = NULL;
 int numeroDeTokens = 0;
 
 void addToken(char *string){
     numeroDeTokens++;
-    if(tabelaDeTokens == NULL) tabelaDeTokens = (table *)malloc(numeroDeTokens * sizeof(table));
-    else tabelaDeTokens = realloc(tabelaDeTokens, numeroDeTokens * sizeof(table));
-    tabelaDeTokens[numeroDeTokens-1].token = (char *)malloc(strlen(string) * sizeof(char));
-    tabelaDeTokens[numeroDeTokens-1].token_len = strlen(string);
-    tabelaDeTokens[numeroDeTokens-1].token = string;
+    if(pilhaDeTokens == NULL){
+        pilhaDeTokens = (table *)malloc(sizeof(table));
+        pilhaDeTokens->token = string;
+        pilhaDeTokens->token_len = strlen(string);
+        pilhaDeTokens->next = NULL;
+    }
+    else{
+        table *newToken;
+        newToken = (table *)malloc(sizeof(table));
+        newToken->token = string;
+        newToken->token_len = strlen(string);
+        newToken->next = pilhaDeTokens;
+        pilhaDeTokens = newToken;
+    }
 }
 
 int main(){
     addToken("id");
-    printf("%s\n", tabelaDeTokens[numeroDeTokens-1].token);
+    printf("%s\n", pilhaDeTokens->token);
+    printf("%i\n", pilhaDeTokens->token_len);
     addToken("id2");
-    printf("%s\n", tabelaDeTokens[numeroDeTokens-1].token);
-    printf("%i\n", tabelaDeTokens[numeroDeTokens-1].token_len);
+    printf("%s\n", pilhaDeTokens->token);
+    printf("%i\n", pilhaDeTokens->token_len);
 }
