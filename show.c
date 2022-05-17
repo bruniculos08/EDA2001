@@ -2,6 +2,12 @@
 #include "stdio.h"
 #include "string.h"
 
+typedef struct Node node;
+struct Node {
+    table *item;
+    node *next;
+};
+
 typedef struct Table table;
 struct Table {
     char *token;
