@@ -7,6 +7,8 @@ struct Table {
     char *token;
     int token_len;
     table *next;
+    int line;
+    int column;
 };
 
 table *pilhaDeTokens = NULL;
