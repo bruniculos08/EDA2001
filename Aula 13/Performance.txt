@@ -1,0 +1,5 @@
+pesquisa Sequencial = 7.000000
+pesquisa Sequencial Sentinela = 7.000000
+pesquisa Binaria = 2.000000
+pesquisa Binaria Recursiva = 4.000000
+pesquisa Interpolacao = 1.000000
