@@ -25,8 +25,8 @@ int pesquisaSequencialSentinela(int array[], int length, int key){
 int pesquisaBinaria(int array[], int length, int key){
     int start = 0, end = length - 1, count = 0, middle;
     while(start <= end){
-        middle = (end + start)/2;
         count++;
+        middle = (end + start)/2;
         //printf("middle = %i\n", middle);
         if(array[middle] == key) return count;
         else if(array[middle] < key) start = middle + 1;
@@ -39,7 +39,7 @@ int pesquisaBinariaRecursiva(int array[], int start, int end, int key){
     int middle = (end + start)/2, count = 0;
     count++;
     //printf("middle = %i, start = %i, end = %i\n", middle, start, end);
-    if(start >= end) return count;
+    if(start > end) return count;
     else if(array[middle] == key) return count;
     else if(array[middle] < key) return (count + pesquisaBinariaRecursiva(array, middle+1, end, key));
     else return (count + pesquisaBinariaRecursiva(array, start, middle-1, key));
@@ -59,52 +59,54 @@ int pesquisaInterpolacao(int array[], int length, int key){
     return count;
 }
 
-int randomNumber(int min_num, int max_num)
-    {
-        int result = 0, low_num = 0, hi_num = 0;
-
-        if (min_num < max_num)
-        {
-            low_num = min_num;
-            hi_num = max_num + 1; // include max_num in output
-        } else {
-            low_num = max_num + 1; // include max_num in output
-            hi_num = min_num;
-        }
-
-        srand(time(NULL));
-        result = (rand() % (hi_num - low_num)) + low_num;
-        return result;
+int *randomArray(int length){
+    int *array;
+    array = (int*)malloc(length*sizeof(int));
+    for(int i = 0; i < length; i++){
+        array[i] = rand()%10;
+        if(i > 0 && array[i] < array[i-1]) array[i] += array[i-1]; 
     }
-
-int *randomArray(int lenght){
-    int *array = (int*)malloc(lenght*sizeof(int));
-    srand(time(NULL));
-    array[0] = randomNumber(1, 100);
-    for(int i = 1; i < lenght; i++) array[i] = randomNumber(1, 100) + array[i-1];
     return array;
 }
 
 int main(){
-    float averageSequencial = 0, averageSequencialSentinela = 0, averageBinaria = 0, averageBinariaRecursiva = 0, averageInterpolacao = 0;
+    int cases = 20;
+    int resultsSequencial[cases], resultsSequencialSentinela[cases], resultsBinaria[cases], resultsBinariaRecursiva[cases], resultsInterpolacao[cases];
+    
     FILE *filePointer;
     filePointer = fopen("Performance.txt", "w+");
-    int cases = 10;
+    int arraySize = 10;
+    int *array = (int*)malloc(arraySize*sizeof(int));
+    srand(time(NULL));
+
     for(int i = 0; i < cases; i++){
-        int arraySize = 10;
-        int random = randomNumber(0, arraySize-1);
-        int *array = randomArray(arraySize);
-        averageSequencial += pesquisaSequencial(array, arraySize, array[random]);
-        averageSequencialSentinela += pesquisaSequencialSentinela(array, arraySize, array[random]);
-        averageBinaria += pesquisaBinaria(array, arraySize, array[random]);
-        averageBinariaRecursiva += pesquisaBinariaRecursiva(array, 0, arraySize, array[random]);
-        averageInterpolacao += pesquisaInterpolacao(array, arraySize, array[random]);
+
+        
+        int random = rand()%arraySize;
+        array = randomArray(arraySize);
+
+        resultsSequencial[i] = pesquisaSequencial(array, arraySize, array[random]);
+        resultsSequencialSentinela[i] = pesquisaSequencialSentinela(array, arraySize, array[random]);
+        resultsBinaria[i] = pesquisaBinaria(array, arraySize, array[random]);
+        resultsBinariaRecursiva[i] = pesquisaBinariaRecursiva(array, 0, arraySize-1, array[random]);
+        resultsInterpolacao[i] = pesquisaInterpolacao(array, arraySize, array[random]);
+
+        free(array);
     }
 
-    fprintf(filePointer, "pesquisa Sequencial = %f\n", averageSequencial/cases);
-    fprintf(filePointer, "pesquisa Sequencial Sentinela = %f\n", averageSequencialSentinela/cases);
-    fprintf(filePointer, "pesquisa Binaria = %f\n", averageBinaria/cases);
-    fprintf(filePointer, "pesquisa Binaria Recursiva = %f\n", averageBinariaRecursiva/cases);
-    fprintf(filePointer, "pesquisa Interpolacao = %f\n", averageInterpolacao/cases);
+    fprintf(filePointer, "pesquisa Sequencial: ");
+    for (int i = 0; i < cases; i++) fprintf(filePointer, "%i ", resultsSequencial[i]);
+
+    fprintf(filePointer, "\npesquisa Sequencial Sentinela: ");
+    for (int i = 0; i < cases; i++) fprintf(filePointer, "%i ", resultsSequencialSentinela[i]);
+
+    fprintf(filePointer, "\npesquisa Binaria: ");
+    for (int i = 0; i < cases; i++) fprintf(filePointer, "%i ", resultsBinaria[i]);
+
+    fprintf(filePointer, "\npesquisa Binaria Recursiva: ");
+    for (int i = 0; i < cases; i++) fprintf(filePointer, "%i ", resultsBinariaRecursiva[i]);
+
+    fprintf(filePointer, "\npesquisa Interpolacao: ");
+    for (int i = 0; i < cases; i++) fprintf(filePointer, "%i ", resultsInterpolacao[i]);
 
 }

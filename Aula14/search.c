@@ -5,6 +5,10 @@
 #include "time.h"
 
 int main(){
-    int *array = randomArray(10);
-    for(int i = 0; i < 10; i++) printf("%i ", array[i]);
+    int length = 10;
+    int *array = randomArray(length);
+    srand(time(NULL));
+    int randomIndex = rand()%length;
+    for(int i = 0; i < length; i++) printf("%i ", array[i]);
+    printf("\nresultado = %i", pesquisaInterpolacao(array, length, array[randomIndex]));
 }
