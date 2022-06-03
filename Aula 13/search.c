@@ -47,8 +47,8 @@ int pesquisaBinariaRecursiva(int array[], int start, int end, int key){
 }
 
 int pesquisaInterpolacao(int array[], int length, int key){
-    int start = 0, end = length - 1, count = 0, middle;
-    while(start <= end){
+    int start = 0, end = length-1, count = 0, middle;
+    while(start < end){
         middle = (start + (end - start)*(key - array[start]))/(array[end] - array[start]);
         //printf("middle = %i\n", middle);
         count++;
@@ -81,7 +81,6 @@ int main(){
 
     for(int i = 0; i < cases; i++){
 
-        
         int random = rand()%arraySize;
         array = randomArray(arraySize);
 
