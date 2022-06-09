@@ -1,0 +1,1 @@
+Eis aqui uma biblioteca pessoal para utilização de árvores binárias que armazenam números.
