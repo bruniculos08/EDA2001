@@ -1,5 +1,3 @@
-// Funções e estruturas da Bibiloteca:
-
 typedef struct Node node;
 struct Node{
     int number;
@@ -7,7 +5,6 @@ struct Node{
     node *left;
     node *right;
 };
-
 node *menu();
 node *balance(node *root);
 node *balanceAll(node *root);
@@ -23,3 +20,13 @@ int balanceFactor(node *root);
 int verifyAVL(node *root);
 void printTree(node *root);
 
+typedef struct QueueNode queueNode;
+struct QueueNode{
+    node *root;
+    queueNode *next;
+};
+
+queueNode *createQueue(node *root);
+queueNode *insertQueue(queue *list, node *root);
+queueNode *removeQueue(queue *list);
+void breadthSearcher(node *root);
