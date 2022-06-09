@@ -47,8 +47,11 @@ node *removeNode(node *root, int oldNumber){
     node *oldNode = searchNode(root, oldNumber);
     node *father = oldNode->father;
     if(oldNode->father != NULL){
-        if(father->left == oldNode) father->left = auxRemoveNode(oldNode);
-        else father->right = auxRemoveNode(oldNode);
+        // Obs.: como iremos remover um nó é necessario evitar possíveis desbalanceamentos.
+        if(father->left == oldNode) father->left = balance(auxRemoveNode(oldNode));
+        else father->right = balance(auxRemoveNode(oldNode));
+        if(father == root) root = balance(root);
+        else father = balance(father);
         return root;
     }
     else return auxRemoveNode(oldNode);
@@ -98,10 +101,13 @@ node *auxRemoveNode(node *son){
     // ... ou seja, temos então o nó sucessor.
 
     // (4.3) Trocar o sucessor do nó a ser removido de lugar com o nó a ser removido:
-    successorFather->left = NULL;
+    if(successorFather != son) successorFather->left = NULL;
     successor->father = son->father;
     successor->left = son->left;
-    successor->right = son->right;
+    if(son->right != successor) successor->right = son->right;
+    else successor->right = NULL;
+    //successor->father = balance(successor->father);
+    //successor = balanceAll(successor);
     free(son);
     return successor;
     
