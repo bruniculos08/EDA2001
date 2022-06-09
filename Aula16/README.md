@@ -1,4 +1,4 @@
-# Bibilioteca para Binary Search Tree (Versão 01):
+# Bibilioteca para Binary Search Tree (Versão 02):
 Esta bibilioteca pessoal foi feita para auxiliar nos exercícios envolvendo árvores binárias.
 
 <p align="center">
