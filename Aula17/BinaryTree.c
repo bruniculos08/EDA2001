@@ -309,5 +309,5 @@ queueNode *removeQueue(queueNode *first){
 }
 
 void breadthSearcher(node *root){
-    printf("%i\n");
+    queueNode *visited;
 }

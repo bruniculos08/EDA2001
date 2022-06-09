@@ -27,6 +27,6 @@ struct QueueNode{
 };
 
 queueNode *createQueue(node *root);
-queueNode *insertQueue(queue *list, node *root);
-queueNode *removeQueue(queue *list);
+queueNode *insertQueue(queueNode *list, node *root);
+queueNode *removeQueue(queueNode *list);
 void breadthSearcher(node *root);
