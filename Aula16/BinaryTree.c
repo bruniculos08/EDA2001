@@ -21,9 +21,11 @@ node *addNode(node *root, node *father, int newNumber){
     }
     node *auxRoot;
     auxRoot = root;
+
     // (03) Nó atual irá apontar para o retorno da recursão:
     if(auxRoot->number >= newNumber) auxRoot->left = addNode(auxRoot->left, auxRoot, newNumber);
     else auxRoot->right = addNode(auxRoot->right, auxRoot, newNumber); 
+
     // (04) Nó atual irá ser retornado pois a função deve retornar um node mantendo atualizando os ponteiros
     return auxRoot;
 
@@ -54,13 +56,13 @@ node *removeNode(node *root, int oldNumber){
 
 node *auxRemoveNode(node *son){
 
-    // (1) se o nó a ser removido não tem filhos:
+    // (1) Se o nó a ser removido não tem filhos:
     if(son->left == NULL && son->right == NULL){
         free(son);
         return NULL;
     }
 
-    // (2) se o nó a ser removido só tem filho à direita:
+    // (2) Se o nó a ser removido só tem filho à direita:
     else if(son->left == NULL){
         node *auxSon;
         auxSon = son->right;
@@ -69,7 +71,7 @@ node *auxRemoveNode(node *son){
         return auxSon;
     }
 
-    // (3) se o nó a ser removido só tem filho à esquerda:
+    // (3) Se o nó a ser removido só tem filho à esquerda:
     else if(son->right == NULL){
         node *auxSon;
         auxSon = son->left;
@@ -78,15 +80,15 @@ node *auxRemoveNode(node *son){
         return auxSon;
     }
 
-    // (4) se o nó a ser removido tem dois filhos:
+    // (4) Se o nó a ser removido tem dois filhos:
 
-    // (4.1) encontrar o sucessor do nó a ser removido e o pai deste sucessor (nesse caso estamos...
+    // (4.1) Encontrar o sucessor do nó a ser removido e o pai deste sucessor (nesse caso estamos...
     // ... buscando o sucessor, mas também é possível utilizar o antecessor para realizar a remoção):
     node *successor, *successorFather;
     successor = son->right;
     successorFather = son;
 
-    // (4.2) percorrer a árvore até encontrar o sucessor e o pai do sucessor:
+    // (4.2) Percorrer a árvore até encontrar o sucessor e o pai do sucessor:
     while(successor->left != NULL){
         successorFather = successor;
         successor = successor->left;
@@ -95,7 +97,7 @@ node *auxRemoveNode(node *son){
     // ... mais à esquerda temos então o nó com o menor valor maior que o valor do nó a ser removido,...
     // ... ou seja, temos então o nó sucessor.
 
-    // (4.3) trocar o sucessor do nó a ser removido de lugar com o nó a ser removido:
+    // (4.3) Trocar o sucessor do nó a ser removido de lugar com o nó a ser removido:
     successorFather->left = NULL;
     successor->father = son->father;
     successor->left = son->left;
@@ -209,10 +211,22 @@ node *balance(node *root){
     if(root == NULL) return NULL;
 
     // (2) Se o nó está desbalanceado em 2 para à esquerda:
-    if(balanceFactor(root) == 2) return rotateRight(root);
+    if(balanceFactor(root) == 2){
+        // Obs.: deve-se verificar se o nó filho que será afetado diretamente pela rotação...
+        // ... está balanceado e então deixa-lo o mais balanceado possível..
+        if(balanceFactor(root->left) > 0) root->left = rotateRight(root->left);
+        else if(balanceFactor(root->left) < 0) root->left = rotateLeft(root->left);
+        return rotateRight(root);
+    }
 
     // (3) Se o nó está desbalanceado em 2 para à direita:
-    if(balanceFactor(root) == -2) return rotateLeft(root);
+    if(balanceFactor(root) == -2){
+        // Obs.: deve-se verificar se o nó filho que será afetado diretamente pela rotação...
+        // ... está balanceado e então deixa-lo o mais balanceado possível.
+        if(balanceFactor(root->left) > 0) root->left = rotateRight(root->left);
+        else if(balanceFactor(root->left) < 0) root->left = rotateLeft(root->left);
+        return rotateLeft(root);
+    }
         
     // (4) Se o nó está desbalanceado em mais de 2 para à esquerda:
     if(balanceFactor(root) > 2){
