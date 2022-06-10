@@ -140,7 +140,7 @@ node *menu(){
     int n, i;
     do
     {
-        printf("Digite a opcao desejada:\n1- inserir\n2- remover\n3- buscar\n4- imprimir\n5- altura\n6- balancear\n7- verificar AVL\n8- breath search\n");
+        printf("Digite a opcao desejada:\n1- inserir\n2- remover\n3- buscar\n4- imprimir\n5- altura\n6- balancear\n7- verificar AVL\n8- breath search\n9- deep search\n10- deep search recursivo\n");
         scanf("%i", &n);
         switch(n)
         {
@@ -177,6 +177,13 @@ node *menu(){
             break;
         case 8:
             breadthSearch(l);
+            break;
+        case 9:
+            deepSearch(l);
+            break;
+        case 10:
+            recursiveDeepSearch(l);
+            printf("\n");
             break;
         default:
             break;
@@ -281,75 +288,108 @@ queue *createQueue(){
     return newQueue;
 }
 
-void insertQueue(queue *list, node *root){
-    queueNode *newNode;
-    newNode = (queueNode *)malloc(sizeof(queueNode));
-    newNode->root = root;
-    newNode->next = NULL;
+void insertQueue(queue *list, node *treeNode){
+    queueNode *newQueueNode;
+    newQueueNode = (queueNode *)malloc(sizeof(queueNode));
+    newQueueNode->treeNode = treeNode;
+    newQueueNode->next = NULL;
     if(list->start == NULL){
-        list->start = newNode;
-        list->end = newNode;
+        list->start = newQueueNode;
+        list->end = newQueueNode;
     }
     else{
-        list->end->next = newNode;
-        list->end = newNode;
+        list->end->next = newQueueNode;
+        list->end = newQueueNode;
     }
 }
 
 node *removeQueue(queue *list){
     if(list->start == NULL) return NULL;
-    node *auxNode;
-    queueNode *auxQueue;
-    auxQueue = list->start;
-    auxNode = list->start->root;
+    node *auxTreeNode;
+    queueNode *auxQueueNode;
+    auxQueueNode = list->start;
+    auxTreeNode = list->start->treeNode;
     list->start = list->start->next;
-    if(list->end == auxQueue) list->end = NULL;
-    free(auxQueue);
-    return auxNode;
+    if(list->end == auxQueueNode) list->end = NULL;
+    free(auxQueueNode);
+    return auxTreeNode;
 }
 
-void breadthSearch(node *root){
+void breadthSearch(node *treeNode){
 
     // Obs. 1: a lista de visitados não é necessária quando se trata de uma árvore.
-    // Obs. 2: o algoritmo aqui está certo, mas a fila está mal implementada.
-    node *auxNode;
+    node *auxTreeNode;
     queue *principal;
     principal = createQueue();
-    insertQueue(principal, root);
+    insertQueue(principal, treeNode);
 
     do{
         // (1) remove um nó da fila a atribui a auxNode:
-        auxNode = removeQueue(principal);
+        auxTreeNode = removeQueue(principal);
 
         // (2) imprime o nó que acabou de ser retirado da fila:
-        printf("%i ", auxNode->number);
+        printf("%i ", auxTreeNode->number);
 
         // (3) adiciona os filhos do nó que foi retirado da fila à fila:
-        if(auxNode->left != NULL) insertQueue(principal, auxNode->left);
-        if(auxNode->right != NULL) insertQueue(principal, auxNode->right);
+        if(auxTreeNode->left != NULL) insertQueue(principal, auxTreeNode->left);
+        if(auxTreeNode->right != NULL) insertQueue(principal, auxTreeNode->right);
     } while (principal->start != NULL);
     printf("\n");
 }
 
-void deepSearch(node *root){
+stack *createStack(){
+    stack *newStack;
+    newStack = (stack *)malloc(sizeof(stack));
+    newStack->start = NULL;
+    return newStack;
+}
+
+void insertStack(stack *list, node *treeNode){
+    stackNode *newStackNode;
+    newStackNode = (stackNode *)malloc(sizeof(stackNode));
+    newStackNode->treeNode = treeNode;
+    newStackNode->next = NULL;
+    if(list->start != NULL) newStackNode->next = list->start;
+    list->start = newStackNode;
+}
+
+node *removeStack(stack *list){
+    if(list->start == NULL) return NULL;
+    node *auxTreeNode;
+    stackNode *auxStackNode;
+    auxTreeNode = list->start->treeNode;
+    auxStackNode = list->start;
+    list->start = list->start->next;
+    free(auxStackNode);
+    return auxTreeNode;
+}
+
+void deepSearch(node *treeNode){
 
     // Obs. 1: a lista de visitados não é necessária quando se trata de uma árvore.
-    // Obs. 2: o algoritmo aqui está certo, mas a fila está mal implementada.
-    node *auxNode;
-    queue *principal;
-    principal = createQueue();
-    insertQueue(principal, root);
+    node *auxTreeNode;
+    stack *principal;
+    principal = createStack();
+    insertStack(principal, treeNode);
 
     do{
-        // (1) remove um nó da fila a atribui a auxNode:
-        auxNode = removeQueue(principal);
+        // (1) remove um nó da pilha a atribui a auxNode:
+        auxTreeNode = removeStack(principal);
 
-        // (2) imprime o nó que acabou de ser retirado da fila:
-        printf("%i ", auxNode->number);
+        // (2) imprime o nó que acabou de ser retirado da pilha:
+        printf("%i ", auxTreeNode->number);
 
-        // (3) adiciona os filhos do nó que foi retirado da fila à fila:
-        if(auxNode->left != NULL) insertQueue(principal, auxNode->left);
-        if(auxNode->right != NULL) insertQueue(principal, auxNode->right);
+        // (3) adiciona os filhos do nó que foi retirado da pilha à pilha:
+        if(auxTreeNode->right != NULL) insertStack(principal, auxTreeNode->right);
+        if(auxTreeNode->left != NULL) insertStack(principal, auxTreeNode->left);
+        
     } while (principal->start != NULL);
     printf("\n");
+}
+
+void recursiveDeepSearch(node *treeNode){
+    if(treeNode == NULL) return;
+    printf("%i ", treeNode->number);
+    recursiveDeepSearch(treeNode->left);
+    recursiveDeepSearch(treeNode->right);
 }

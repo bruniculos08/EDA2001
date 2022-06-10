@@ -22,7 +22,7 @@ void printTree(node *root);
 
 typedef struct QueueNode queueNode;
 struct QueueNode{
-    node *root;
+    node *treeNode;
     queueNode *next;
 };
 
@@ -32,16 +32,23 @@ struct Queue{
     queueNode *end;
 };
 
+typedef struct StackNode stackNode;
+struct StackNode{
+    node *treeNode;
+    stackNode *next;
+};
+
 typedef struct Stack stack;
 struct Stack{
-    queueNode *start;
+    stackNode *start;
 };
 
 stack *createStack();
 queue *createQueue();
-void insertQueue(queue *list, node *root);
-void insertStack(stack *list, node *root);
+void insertQueue(queue *list, node *treeNode);
+void insertStack(stack *list, node *treeNode);
 node *removeQueue(queue *list);
 node *removeStack(stack *list);
-void breadthSearch(node *root);
-void deepSearch(node *root);
+void breadthSearch(node *treeNode);
+void deepSearch(node *treeNode);
+void recursiveDeepSearch(node *treeNode);
