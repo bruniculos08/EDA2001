@@ -26,7 +26,22 @@ struct QueueNode{
     queueNode *next;
 };
 
-queueNode *createQueue(node *root);
-queueNode *insertQueue(queueNode *list, node *root);
-queueNode *removeQueue(queueNode *list);
-void breadthSearcher(node *root);
+typedef struct Queue queue;
+struct Queue{
+    queueNode *start;
+    queueNode *end;
+};
+
+typedef struct Stack stack;
+struct Stack{
+    queueNode *start;
+};
+
+stack *createStack();
+queue *createQueue();
+void insertQueue(queue *list, node *root);
+void insertStack(stack *list, node *root);
+node *removeQueue(queue *list);
+node *removeStack(stack *list);
+void breadthSearch(node *root);
+void deepSearch(node *root);

@@ -140,7 +140,7 @@ node *menu(){
     int n, i;
     do
     {
-        printf("Digite a opcao desejada:\n1- inserir\n2- remover\n3- buscar\n4- imprimir\n5- altura\n6- balancear\n7- verificar AVL\n");
+        printf("Digite a opcao desejada:\n1- inserir\n2- remover\n3- buscar\n4- imprimir\n5- altura\n6- balancear\n7- verificar AVL\n8- breath search\n");
         scanf("%i", &n);
         switch(n)
         {
@@ -174,6 +174,9 @@ node *menu(){
             i = verifyAVL(l);
             if(i > 0) printf("A arvore nao esta balanceada.\n");
             else printf("A arvore esta balanceada.\n");
+            break;
+        case 8:
+            breadthSearch(l);
             break;
         default:
             break;
@@ -271,43 +274,82 @@ int verifyAVL(node *root){
     return verifyAVL(root->left) + verifyAVL(root->right);
 }
 
-
-queueNode *createQueue(node *root){
-    queueNode *newQueue = (queueNode *)malloc(sizeof(queueNode));
-    newQueue->root = root;
-    newQueue->next = NULL;
+queue *createQueue(){
+    queue *newQueue = (queue *)malloc(sizeof(queue));
+    newQueue->start = NULL;
+    newQueue->end = NULL;
     return newQueue;
 }
 
-queueNode *insertQueue(queueNode *first, node *root){
-    queueNode *newQueue;
-    newQueue = createQueue(root);
-    newQueue->next = first;
-    return newQueue;
-}
-
-queueNode *removeQueue(queueNode *first){
-    if(first == NULL) return NULL;
-    queueNode *auxQueue;
-    node *auxNode;
-    auxQueue = first;
-    
-    while(auxQueue->next != NULL && auxQueue->next->next != NULL) auxQueue = auxQueue->next;
-    
-    if(auxQueue->next == NULL){
-        auxNode = auxQueue->root;
-        free(auxQueue);
-        first = NULL;
-        return auxNode;
+void insertQueue(queue *list, node *root){
+    queueNode *newNode;
+    newNode = (queueNode *)malloc(sizeof(queueNode));
+    newNode->root = root;
+    newNode->next = NULL;
+    if(list->start == NULL){
+        list->start = newNode;
+        list->end = newNode;
     }
     else{
-        auxNode = auxQueue->next->root;
-        free(auxQueue->next);
-        auxQueue->next = NULL;
-        return auxNode;
+        list->end->next = newNode;
+        list->end = newNode;
     }
 }
 
-void breadthSearcher(node *root){
-    queueNode *visited;
+node *removeQueue(queue *list){
+    if(list->start == NULL) return NULL;
+    node *auxNode;
+    queueNode *auxQueue;
+    auxQueue = list->start;
+    auxNode = list->start->root;
+    list->start = list->start->next;
+    if(list->end == auxQueue) list->end = NULL;
+    free(auxQueue);
+    return auxNode;
+}
+
+void breadthSearch(node *root){
+
+    // Obs. 1: a lista de visitados não é necessária quando se trata de uma árvore.
+    // Obs. 2: o algoritmo aqui está certo, mas a fila está mal implementada.
+    node *auxNode;
+    queue *principal;
+    principal = createQueue();
+    insertQueue(principal, root);
+
+    do{
+        // (1) remove um nó da fila a atribui a auxNode:
+        auxNode = removeQueue(principal);
+
+        // (2) imprime o nó que acabou de ser retirado da fila:
+        printf("%i ", auxNode->number);
+
+        // (3) adiciona os filhos do nó que foi retirado da fila à fila:
+        if(auxNode->left != NULL) insertQueue(principal, auxNode->left);
+        if(auxNode->right != NULL) insertQueue(principal, auxNode->right);
+    } while (principal->start != NULL);
+    printf("\n");
+}
+
+void deepSearch(node *root){
+
+    // Obs. 1: a lista de visitados não é necessária quando se trata de uma árvore.
+    // Obs. 2: o algoritmo aqui está certo, mas a fila está mal implementada.
+    node *auxNode;
+    queue *principal;
+    principal = createQueue();
+    insertQueue(principal, root);
+
+    do{
+        // (1) remove um nó da fila a atribui a auxNode:
+        auxNode = removeQueue(principal);
+
+        // (2) imprime o nó que acabou de ser retirado da fila:
+        printf("%i ", auxNode->number);
+
+        // (3) adiciona os filhos do nó que foi retirado da fila à fila:
+        if(auxNode->left != NULL) insertQueue(principal, auxNode->left);
+        if(auxNode->right != NULL) insertQueue(principal, auxNode->right);
+    } while (principal->start != NULL);
+    printf("\n");
 }
