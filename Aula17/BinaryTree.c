@@ -222,6 +222,7 @@ int balanceFactor(node *root){
 }
 
 node *balance(node *root){
+    // Obs.: podemos realizar o balanceamento saindo de uma folha para a raiz (o que aliás é mais eficniente).
 
     // (1) Se o nó não existir:
     if(root == NULL) return NULL;
