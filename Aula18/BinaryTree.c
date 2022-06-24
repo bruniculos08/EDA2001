@@ -11,23 +11,24 @@ node *createNode(int number){
     return newRoot;
 }
 
-node *addNode(node *root, node *father, int newNumber){
+node *addNode(node *root, int number){
+    return addNodeRecursive(root, NULL, number);
+}
+
+node *addNodeRecursive(node *root, node *father, int newNumber){
     // (01) Chegando na posição do nó a ser alocado:
     if(root == NULL){ 
        node *newNode = createNode(newNumber); 
+
        // (02) Pai aponta para o nó anterior:
-       newNode->father = father; 
+       newNode->father = father;
+       balanceUp(father);
        return newNode;
     }
-    node *auxRoot;
-    auxRoot = root;
 
     // (03) Nó atual irá apontar para o retorno da recursão:
-    if(auxRoot->number >= newNumber) auxRoot->left = addNode(auxRoot->left, auxRoot, newNumber);
-    else auxRoot->right = addNode(auxRoot->right, auxRoot, newNumber); 
-
-    // (04) Nó atual irá ser retornado pois a função deve retornar um node mantendo atualizando os ponteiros
-    return auxRoot;
+    if(root->number >= newNumber) return addNodeRecursive(root->left, root, newNumber);
+    else return addNodeRecursive(root->right, root, newNumber);
 
 }
 
