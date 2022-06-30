@@ -29,10 +29,14 @@ node *addNode(tree *RB, node *root, int number){
     return root;
 }
 
+node *searchNode(node *root, int number){
+
+}
+
 node *grandFather(node *root){
     node *auxNode = root;
     if(root->father != NULL){
-        return root->father
+        auxNode = root->father->father;
     }
 }
 
