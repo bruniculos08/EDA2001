@@ -1,12 +1,6 @@
 enum coloring {red, black};
 typedef enum coloring coloring;
 
-typedef struct RedBlackTree tree;
-struct RedBlackTree {
-    node *firstRoot;
-    node *nullRoot;
-};
-
 typedef struct Node node;
 struct Node {
     node *father;
@@ -16,6 +10,12 @@ struct Node {
     int number;
 };
 
+typedef struct RedBlackTree tree;
+struct RedBlackTree {
+    node *firstRoot;
+    node *nullRoot;
+};
+
 // Regras da árvore rubro negra:
 // 1. Todo nó é vermelho ou preto
 // 2. A nó raiz sempre será preto
@@ -23,8 +23,9 @@ struct Node {
 // 4. Se um nó é vermelho então ambos os seus filhos são pretos
 // 5. Todos os caminhos de um nó até cada uma das suas folhas possui a mesma quantidade de nós pretos
 
+
 node *balance(tree *RB, node *root);
-void balanceFromLeaf(node *root);
+void printTree(tree *RB, node *root);
 void addNode(tree *RB, int number);
 node *removeNode(node *root);
 node *createNode(tree *RB, node *father, int number);
