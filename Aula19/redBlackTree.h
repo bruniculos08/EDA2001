@@ -3,7 +3,7 @@ typedef enum coloring coloring;
 
 typedef struct RedBlackTree tree;
 struct RedBlackTree {
-    node *root;
+    node *firstRoot;
     node *nullRoot;
 };
 
@@ -23,8 +23,9 @@ struct Node {
 // 4. Se um nó é vermelho então ambos os seus filhos são pretos
 // 5. Todos os caminhos de um nó até cada uma das suas folhas possui a mesma quantidade de nós pretos
 
-
-node *addNode(tree *RB, node *root, int number);
+node *balance(tree *RB, node *root);
+void balanceFromLeaf(node *root);
+void addNode(tree *RB, int number);
 node *removeNode(node *root);
 node *createNode(tree *RB, node *father, int number);
 tree *createTree();
