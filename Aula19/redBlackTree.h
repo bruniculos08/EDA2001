@@ -23,17 +23,16 @@ struct RedBlackTree {
 // 4. Se um nó é vermelho então ambos os seus filhos são pretos
 // 5. Todos os caminhos de um nó até cada uma das suas folhas possui a mesma quantidade de nós pretos
 
-
-node *balance(tree *RB, node *root);
+void rotateLeft(tree *RB, node *root);
+void rotateRight(tree *RB, node *root);
+void balance(tree *RB, node *root);
 void printTree(tree *RB, node *root);
 void addNode(tree *RB, int number);
 node *removeNode(node *root);
 node *createNode(tree *RB, node *father, int number);
 tree *createTree();
 node *searchNode(node *root, int number);
-node *rotateLeft(node *root);
-node *rotateRight(node *root);
 node *recolor(node *root);
-node *grandFather(node *root);
-node *uncle(node *root);
+node *grandFather(tree *RB, node *root);
+node *uncle(tree *RB, node *root);
 

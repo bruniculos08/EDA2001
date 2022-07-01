@@ -37,24 +37,24 @@ node *createNode(tree *RB, node *father, int number){
 void addNode(tree *RB, int number){
     node *auxNode = RB->firstRoot;
 
-    if(auxNode == NULL){ 
+    if(auxNode == NULL || auxNode == RB->nullRoot){ 
         RB->firstRoot = createNode(RB, RB->nullRoot, number);
         balance(RB, RB->firstRoot);
         return;
     }
 
     while(true){
-        if(auxNode->number <= number && auxNode->right == RB->nullRoot){ 
+        if(auxNode->number < number && (auxNode->right == RB->nullRoot || auxNode->right == NULL)){ 
             auxNode->right = createNode(RB, auxNode, number);
-            balance(RB, auxNode->left);
+            balance(RB, auxNode->right);
             return;
         }
-        else if(auxNode->number > number && auxNode->left == RB->nullRoot){
+        else if(auxNode->number >= number && (auxNode->left == RB->nullRoot || auxNode->left == NULL)){
             auxNode->left = createNode(RB, auxNode, number);
             balance(RB, auxNode->left);
             return;
         }
-        else if(auxNode->number <= number) auxNode = auxNode->right;
+        else if(auxNode->number < number) auxNode = auxNode->right;
         else auxNode = auxNode->left;
     }
 }
@@ -65,37 +65,33 @@ node *searchNode(node *root, int number){
     else return searchNode(root->right, number);
 }
 
-node *grandFather(node *root){
-    node *auxNode = root;
-    if(root->father != NULL){
-        auxNode = root->father->father;
-    }
-    return auxNode;
+node *grandFather(tree *RB, node *root){
+    return root->father->father;
 }
 
-node *uncle(node *root){
-    node *auxNode = grandFather(root);
-    if(auxNode == NULL) return NULL;
+node *uncle(tree *RB, node *root){
+    node *auxNode = grandFather(RB, root);
+    if(auxNode == RB->nullRoot) return RB->nullRoot;
     else if(root->father == auxNode->left) return auxNode->right;
     else return auxNode->left;
 }
 
-node *balance(tree *RB, node *root){
+void balance(tree *RB, node *root){
 
     // Caso (0): root é o nó incial (raiz da árvore)
     if(root->father == RB->nullRoot){
         root->color = black;
-        return root;
+        return;
     }
     // Solução (0): recolorir o único nó existente.
 
 
     // Obs.: Suponha que o nó argumento da função é sempre vermelho, visto que...
     // ... será sempre um nó recém adicionado (ao menos inicialmente):
-    while(root->father->color == red && root->color == red){
+    while(root->father->color == red){
         node *fatherRoot = root->father;
-        node *grandRoot = grandFather(root);
-        node *uncleRoot = uncle(root);
+        node *grandRoot = grandFather(RB, root);
+        node *uncleRoot = uncle(RB, root);
 
         // Caso (1): o nó tio (uncle) é vermelho
         if(uncleRoot->color == red){
@@ -108,11 +104,11 @@ node *balance(tree *RB, node *root){
         // Solução (1): recolorir o nó tio, pai e avô.
 
         // Se o nó root é filho à esquerda:
-        if(root == root->father->left){
+        else if(root == root->father->left){
 
             // Caso (2): o nó tio (uncle) é preto e o nó pai é filho à direita
             if(uncleRoot->color == black && grandRoot->right == fatherRoot){
-                root = rotateRight(fatherRoot);
+                rotateRight(RB, fatherRoot);
                 // Obs.: note que nesse caso é de suma importância o fato de que o nó root...
                 // ... é filho à esquerda de seu nó pai.
             }
@@ -121,9 +117,10 @@ node *balance(tree *RB, node *root){
 
             // Caso (3): o nó tio (uncle) é preto e o nó pai é filho à esquerda
             else if(uncleRoot->color == black && grandRoot->left == fatherRoot){
-                fatherRoot = rotateRight(grandRoot);
+                rotateRight(RB, grandRoot);
                 fatherRoot->color = black;
                 grandRoot->color = red;
+                root = root->father->father;
             }
             // Solução (3): rotacionar o nó avô para o lado contrário do nó root (à direita)... 
             // ... e recolorir o nó pai original e o nó avô original (que virou nó irmão de root).
@@ -133,8 +130,8 @@ node *balance(tree *RB, node *root){
         else{
 
             // Caso (2): o nó tio (uncle) é preto e o nó pai é filho à esquerda
-            if(uncleRoot->color == black && grandRoot->right == fatherRoot){
-                root = rotateLeft(fatherRoot);
+            if(uncleRoot->color == black && grandRoot->left == fatherRoot){
+                rotateLeft(RB, fatherRoot);
                 // Obs.: note que nesse caso é de suma importância o fato de que o nó root...
                 // ... é filho à direita de seu nó pai.
             }
@@ -142,38 +139,43 @@ node *balance(tree *RB, node *root){
             // ... ocorra na próxima iteração do while.
 
             // Caso (3): o nó tio (uncle) é preto e o nó pai é filho à direita
-            else if(uncleRoot->color == black && grandRoot->left == fatherRoot){
-                fatherRoot = rotateLeft(grandRoot);
+            else if(uncleRoot->color == black && grandRoot->right == fatherRoot){
+                rotateLeft(RB, grandRoot);
                 fatherRoot->color = black;
                 grandRoot->color = red;
+                root = root->father->father;
             }
             // Solução (3): rotacionar o nó avô para o lado contrário do nó root (à esquerda)... 
             // ... e recolorir o nó pai original e o nó avô original (que virou nó irmão de root).
         }
     }
-    return root;
+    RB->firstRoot->color = black;
 }
 
-node *rotateLeft(node *root){
-    if(root == NULL) return NULL;
+void rotateLeft(tree *RB, node *root){
+    if(root == RB->nullRoot) return;
     node *rightRoot;
     rightRoot = root->right;
     rightRoot->father = root->father;
+    if(root->father->left == root) root->father->left = rightRoot;
+    else root->father->right = rightRoot;
     root->father = rightRoot;
     root->right = rightRoot->left;
     rightRoot->left = root;
     // Obs.: teremos que retornar para um dos ponteiros do pai do nó rotacionado.
-    return rightRoot;
+    // return rightRoot;
 }
 
-node *rotateRight(node *root){
-    if(root == NULL) return NULL;
+void rotateRight(tree *RB, node *root){
+    if(root == RB->nullRoot) return;
     node *leftRoot;
     leftRoot = root->left;
     leftRoot->father = root->father;
+    if(root->father->left == root) root->father->left = leftRoot;
+    else root->father->right = leftRoot;  
     root->father = leftRoot;
     root->left = leftRoot->right;
     leftRoot->right = root;
     // Obs.: teremos que retornar para um dos ponteiros do pai do nó rotacionado.
-    return leftRoot;
+    // return leftRoot;
 }
