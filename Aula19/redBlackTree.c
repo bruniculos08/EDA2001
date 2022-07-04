@@ -18,9 +18,9 @@ tree *createTree(){
     RB->firstRoot = NULL;
     RB->nullRoot = (node *)malloc(sizeof(node));
     RB->nullRoot->color = black;
-    RB->nullRoot->father = NULL;
-    RB->nullRoot->left = NULL;
-    RB->nullRoot->right = NULL;
+    RB->nullRoot->father = RB->nullRoot;
+    RB->nullRoot->left = RB->nullRoot;
+    RB->nullRoot->right = RB->nullRoot;
     RB->nullRoot->number = -1;
     return RB;
 }
@@ -44,17 +44,17 @@ void addNode(tree *RB, int number){
     }
 
     while(true){
-        if(auxNode->number < number && (auxNode->right == RB->nullRoot || auxNode->right == NULL)){ 
+        if(auxNode->number <= number && (auxNode->right == RB->nullRoot || auxNode->right == NULL)){ 
             auxNode->right = createNode(RB, auxNode, number);
             balance(RB, auxNode->right);
             return;
         }
-        else if(auxNode->number >= number && (auxNode->left == RB->nullRoot || auxNode->left == NULL)){
+        else if(auxNode->number > number && (auxNode->left == RB->nullRoot || auxNode->left == NULL)){
             auxNode->left = createNode(RB, auxNode, number);
             balance(RB, auxNode->left);
             return;
         }
-        else if(auxNode->number < number) auxNode = auxNode->right;
+        else if(auxNode->number <= number) auxNode = auxNode->right;
         else auxNode = auxNode->left;
     }
 }
@@ -88,7 +88,7 @@ void balance(tree *RB, node *root){
 
     // Obs.: Suponha que o nó argumento da função é sempre vermelho, visto que...
     // ... será sempre um nó recém adicionado (ao menos inicialmente):
-    while(root->father->color == red){
+    while(root->father->color == red && root->color == red){
         node *fatherRoot = root->father;
         node *grandRoot = grandFather(RB, root);
         node *uncleRoot = uncle(RB, root);
@@ -98,6 +98,7 @@ void balance(tree *RB, node *root){
             fatherRoot->color = black;
             uncleRoot->color = black;
             grandRoot->color = red;
+            root = grandRoot;
             // Obs.: note que o balanceamento terá que ocorrer em todos os nós no caminho...
             // ... entre o nó folha adicionado e a raiz.
         }
@@ -106,21 +107,22 @@ void balance(tree *RB, node *root){
         // Se o nó root é filho à esquerda:
         else if(root == root->father->left){
 
-            // Caso (2): o nó tio (uncle) é preto e o nó pai é filho à direita
+            // Caso (2): o nó tio (uncle) é preto e o nó pai é filho à direita (e root é filho à esquerda)
             if(uncleRoot->color == black && grandRoot->right == fatherRoot){
                 rotateRight(RB, fatherRoot);
+                root = fatherRoot;
                 // Obs.: note que nesse caso é de suma importância o fato de que o nó root...
                 // ... é filho à esquerda de seu nó pai.
             }
             // Solução (2): rotacionar o nó pai para a direita, para que o balanceamento...
             // ... ocorra na próxima iteração do while.
 
-            // Caso (3): o nó tio (uncle) é preto e o nó pai é filho à esquerda
+            // Caso (3): o nó tio (uncle) é preto e o nó pai é filho à esquerda (e root é filho à esquerda)
             else if(uncleRoot->color == black && grandRoot->left == fatherRoot){
                 rotateRight(RB, grandRoot);
-                fatherRoot->color = black;
+                fatherRoot->color = black;  
                 grandRoot->color = red;
-                root = root->father->father;
+                root = root->father;
             }
             // Solução (3): rotacionar o nó avô para o lado contrário do nó root (à direita)... 
             // ... e recolorir o nó pai original e o nó avô original (que virou nó irmão de root).
@@ -129,21 +131,22 @@ void balance(tree *RB, node *root){
         // Se o nó root é filho à direita:
         else{
 
-            // Caso (2): o nó tio (uncle) é preto e o nó pai é filho à esquerda
+            // Caso (2): o nó tio (uncle) é preto e o nó pai é filho à esquerda (root é filho á direita)
             if(uncleRoot->color == black && grandRoot->left == fatherRoot){
                 rotateLeft(RB, fatherRoot);
+                root = fatherRoot;
                 // Obs.: note que nesse caso é de suma importância o fato de que o nó root...
                 // ... é filho à direita de seu nó pai.
             }
             // Solução (2): rotacionar o nó pai para a esquerda, para que o balanceamento...
             // ... ocorra na próxima iteração do while.
 
-            // Caso (3): o nó tio (uncle) é preto e o nó pai é filho à direita
+            // Caso (3): o nó tio (uncle) é preto e o nó pai é filho à direita (root é filho á direita)
             else if(uncleRoot->color == black && grandRoot->right == fatherRoot){
                 rotateLeft(RB, grandRoot);
                 fatherRoot->color = black;
                 grandRoot->color = red;
-                root = root->father->father;
+                root = fatherRoot;
             }
             // Solução (3): rotacionar o nó avô para o lado contrário do nó root (à esquerda)... 
             // ... e recolorir o nó pai original e o nó avô original (que virou nó irmão de root).
@@ -151,6 +154,8 @@ void balance(tree *RB, node *root){
     }
     RB->firstRoot->color = black;
 }
+
+// Avisar sobre o problema de rotação em inserções para o professor:
 
 void rotateLeft(tree *RB, node *root){
     if(root == RB->nullRoot) return;
@@ -162,6 +167,7 @@ void rotateLeft(tree *RB, node *root){
     root->father = rightRoot;
     root->right = rightRoot->left;
     rightRoot->left = root;
+    if(RB->firstRoot->father != RB->nullRoot) RB->firstRoot = RB->firstRoot->father;
     // Obs.: teremos que retornar para um dos ponteiros do pai do nó rotacionado.
     // return rightRoot;
 }
@@ -176,6 +182,7 @@ void rotateRight(tree *RB, node *root){
     root->father = leftRoot;
     root->left = leftRoot->right;
     leftRoot->right = root;
+    if(RB->firstRoot->father != RB->nullRoot) RB->firstRoot = RB->firstRoot->father;
     // Obs.: teremos que retornar para um dos ponteiros do pai do nó rotacionado.
     // return leftRoot;
 }
