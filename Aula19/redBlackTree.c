@@ -5,9 +5,12 @@
 
 void printTree(tree *RB, node *root){
     if(root == RB->nullRoot) return;
+
     printf("%i ", root->number);
+    
     if(root->color == red) printf("red\n");
     else printf("black\n");
+    
     printTree(RB, root->left);
     printTree(RB, root->right);
 }
@@ -59,10 +62,10 @@ void addNode(tree *RB, int number){
     }
 }
 
-node *searchNode(node *root, int number){
-    if(root->number == number || root == NULL) return root;
-    else if(root->number > number) return searchNode(root->left, number);
-    else return searchNode(root->right, number);
+node *searchNode(tree *RB, node *root, int number){
+    if(root->number == number || root == RB->nullRoot) return root;
+    else if(root->number > number) return searchNode(RB, root->left, number);
+    else return searchNode(RB, root->right, number);
 }
 
 node *grandFather(tree *RB, node *root){
@@ -156,11 +159,11 @@ void balance(tree *RB, node *root){
 }
 
 void removeNode(tree *RB, int oldNumber){
-    node *oldNode = searchNode(RB, oldNumber);
+    node *oldNode = searchNode(RB, RB->firstRoot, oldNumber);
     node *oldNodeFather = oldNode->father;
-    coloring *oldNodeColor = oldNode->color;
+    coloring oldNodeColor = oldNode->color;
 
-    if(oldNodeFather == RB->firstRoot){
+    if(oldNode == RB->firstRoot){
         RB->firstRoot = auxRemoveNode(RB, oldNode);
         RB->firstRoot->color = black;
         if(oldNodeColor != red) balanceDeleted(RB, RB->firstRoot);
@@ -175,16 +178,15 @@ void removeNode(tree *RB, int oldNumber){
         oldNodeFather->right->color = oldNodeColor;
         if(oldNodeColor != red) balanceDeleted(RB, oldNodeFather->right);
     }
-
 }
 
 void balanceDeleted(tree *RB, node *root){
-    
+
     while (root != RB->firstRoot && root->color != black){
         if(root = RB->nullRoot) break;
         
         node *rootBrother = brother(RB, root);
-        node *rootFather = father(RB, root);
+        node *rootFather = root->father;
 
         // Caso (1): se o irmão de root é vermelho
         if(rootBrother->color == red){
@@ -195,7 +197,7 @@ void balanceDeleted(tree *RB, node *root){
         }
         
         // Caso (2): se o irmão de root é preto e todos os seus filhos são pretos
-        else if(rootBrother->left->color == rootBrother->right->color == black){
+        else if(rootBrother->left->color == black && rootBrother->right->color == black){
             rootBrother->color = red;
             root = rootFather;
         }
@@ -205,6 +207,7 @@ void balanceDeleted(tree *RB, node *root){
             rootBrother->left->color = black;
             rootBrother->color = red;
             rotateRight(RB, rootBrother);
+            mantainTreeRoot(RB);
         }
 
         // Caso (3): se root é filho à direita, o irmão de root é preto e seu filho à direita é preto
@@ -234,12 +237,13 @@ void balanceDeleted(tree *RB, node *root){
             root = RB->firstRoot;
         }
 
+        mantainTreeRoot(RB);
         root->color = black;
     }
 }
 
 void mantainTreeRoot(tree *RB){
-    if(RB->firstRoot->father == RB->nullRoot) return;
+    if(RB->firstRoot == RB->nullRoot || RB->firstRoot->father == RB->nullRoot) return;
     while(RB->firstRoot->father != RB->nullRoot) RB->firstRoot = RB->firstRoot->father;
 }
 
@@ -305,9 +309,6 @@ node *auxRemoveNode(tree *RB, node *son){
     free(son);
     return successor;
 }
-
-
-
 
 // Avisar sobre o problema de rotação em inserções para o professor:
 

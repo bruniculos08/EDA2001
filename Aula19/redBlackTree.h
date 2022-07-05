@@ -31,10 +31,10 @@ void printTree(tree *RB, node *root);
 void addNode(tree *RB, int number);
 void removeNode(tree *RB, int oldNumber);
 void mantainTreeRoot(tree *RB);
-node *auxRemoveNode(tree *RB, node *son)
+node *auxRemoveNode(tree *RB, node *son);
 node *createNode(tree *RB, node *father, int number);
 tree *createTree();
-node *searchNode(tree *RB, int number);
+node *searchNode(tree *RB, node *root, int number);
 node *recolor(node *root);
 node *grandFather(tree *RB, node *root);
 node *uncle(tree *RB, node *root);
