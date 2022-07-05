@@ -155,6 +155,160 @@ void balance(tree *RB, node *root){
     RB->firstRoot->color = black;
 }
 
+void removeNode(tree *RB, int oldNumber){
+    node *oldNode = searchNode(RB, oldNumber);
+    node *oldNodeFather = oldNode->father;
+    coloring *oldNodeColor = oldNode->color;
+
+    if(oldNodeFather == RB->firstRoot){
+        RB->firstRoot = auxRemoveNode(RB, oldNode);
+        RB->firstRoot->color = black;
+        if(oldNodeColor != red) balanceDeleted(RB, RB->firstRoot);
+    }
+    else if(oldNodeFather->left == oldNode){
+        oldNodeFather->left = auxRemoveNode(RB, oldNode);
+        oldNodeFather->left->color = oldNodeColor;
+        if(oldNodeColor != red) balanceDeleted(RB, oldNodeFather->left);
+    }
+    else{
+        oldNodeFather->right = auxRemoveNode(RB, oldNode);
+        oldNodeFather->right->color = oldNodeColor;
+        if(oldNodeColor != red) balanceDeleted(RB, oldNodeFather->right);
+    }
+
+}
+
+void balanceDeleted(tree *RB, node *root){
+    
+    while (root != RB->firstRoot && root->color != black){
+        if(root = RB->nullRoot) break;
+        
+        node *rootBrother = brother(RB, root);
+        node *rootFather = father(RB, root);
+
+        // Caso (1): se o irmão de root é vermelho
+        if(rootBrother->color == red){
+            rootBrother->color = black;
+            rootFather->color = red;
+            if(root == rootFather->left) rotateLeft(RB, rootFather);
+            else rotateRight(RB, rootFather);
+        }
+        
+        // Caso (2): se o irmão de root é preto e todos os seus filhos são pretos
+        else if(rootBrother->left->color == rootBrother->right->color == black){
+            rootBrother->color = red;
+            root = rootFather;
+        }
+
+        // Caso (3): se root é filho à esquerda, o irmão de root é preto e seu filho à direita é preto
+        else if(root == rootFather->left && rootBrother->right->color == black){
+            rootBrother->left->color = black;
+            rootBrother->color = red;
+            rotateRight(RB, rootBrother);
+        }
+
+        // Caso (3): se root é filho à direita, o irmão de root é preto e seu filho à direita é preto
+        else if(root == rootFather->right && rootBrother->left->color == black){
+            rootBrother->right->color = black;
+            rootBrother->color = red;
+            rotateLeft(RB, rootBrother);
+        }
+
+        // Caso (4): se nenhum dos outros casos ocorrer mas root é filho à esquerda
+        else if(root == rootFather->left){
+            rootBrother->color = rootFather->color;
+            rootFather->color = black;
+            rootBrother->right->color = black;
+            rotateLeft(RB, rootFather);
+            mantainTreeRoot(RB);
+            root = RB->firstRoot;
+        }
+
+        // Caso (4): se nenhum dos outros casos ocorrer mas root é filho à direita
+        else{
+            rootBrother->color = rootFather->color;
+            rootFather->color = black;
+            rootBrother->left->color = black;
+            rotateRight(RB, rootFather);
+            mantainTreeRoot(RB);
+            root = RB->firstRoot;
+        }
+
+        root->color = black;
+    }
+}
+
+void mantainTreeRoot(tree *RB){
+    if(RB->firstRoot->father == RB->nullRoot) return;
+    while(RB->firstRoot->father != RB->nullRoot) RB->firstRoot = RB->firstRoot->father;
+}
+
+node *brother(tree *RB, node *root){
+    if(root->father == RB->nullRoot) return RB->nullRoot;
+    else if(root->father->left == root) return root->father->right;
+    else return root->father->left;
+}
+
+// Subir de qualquer nó até a raiz é de complexidade O(log(n))   
+
+node *auxRemoveNode(tree *RB, node *son){
+
+    // (1) Se o nó a ser removido não tem filhos:
+    if(son->left == RB->nullRoot && son->right == RB->nullRoot){
+        free(son);
+        return RB->nullRoot;
+    }
+
+    // (2) Se o nó a ser removido só tem filho à direita:
+    else if(son->left == RB->nullRoot){
+        node *auxSon;
+        auxSon = son->right;
+        auxSon->father = son->father;
+        free(son);
+        return auxSon;
+    }
+
+    // (3) Se o nó a ser removido só tem filho à esquerda:
+    else if(son->right == RB->nullRoot){
+        node *auxSon;
+        auxSon = son->left;
+        auxSon->father = son->father;
+        free(son);
+        return auxSon;
+    }
+
+    // (4) Se o nó a ser removido tem dois filhos:
+
+    // (4.1) Encontrar o sucessor do nó a ser removido e o pai deste sucessor (nesse caso estamos...
+    // ... buscando o sucessor, mas também é possível utilizar o antecessor para realizar a remoção):
+    node *successor, *successorFather;
+    successor = son->right;
+    successorFather = son;
+
+    // (4.2) Percorrer a árvore até encontrar o sucessor e o pai do sucessor:
+    while(successor->left != RB->nullRoot){
+        successorFather = successor;
+        successor = successor->left;
+    }
+    // Obs.: note que andando pro filho a direita do nó removido e depois indo até o nó folha...
+    // ... mais à esquerda temos então o nó com o menor valor maior que o valor do nó a ser removido,...
+    // ... ou seja, temos então o nó sucessor.
+
+    // (4.3) Trocar o sucessor do nó a ser removido de lugar com o nó a ser removido:
+    if(successorFather != son) successorFather->left = RB->nullRoot;
+    successor->father = son->father;
+    successor->left = son->left;
+    if(son->right != successor) successor->right = son->right;
+    else successor->right = RB->nullRoot;
+    //successor->father = balance(successor->father);
+    //successor = balanceAll(successor);
+    free(son);
+    return successor;
+}
+
+
+
+
 // Avisar sobre o problema de rotação em inserções para o professor:
 
 void rotateLeft(tree *RB, node *root){
