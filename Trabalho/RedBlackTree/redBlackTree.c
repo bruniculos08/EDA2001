@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "redBlackTree.h"
+int countSteps = 0;
+
 
 void printTree(tree *RB, node *root){
     if(root == RB->nullRoot) return;
@@ -59,6 +61,7 @@ void addNode(tree *RB, int number){
         }
         else if(auxNode->number <= number) auxNode = auxNode->right;
         else auxNode = auxNode->left;
+        countSteps++;
     }
 }
 
@@ -321,6 +324,7 @@ void rotateLeft(tree *RB, node *root){
     else root->father->right = rightRoot;
     root->father = rightRoot;
     root->right = rightRoot->left;
+    root->right->father = root;
     rightRoot->left = root;
     if(RB->firstRoot->father != RB->nullRoot) RB->firstRoot = RB->firstRoot->father;
     // Obs.: teremos que retornar para um dos ponteiros do pai do nó rotacionado.
@@ -336,6 +340,7 @@ void rotateRight(tree *RB, node *root){
     else root->father->right = leftRoot;  
     root->father = leftRoot;
     root->left = leftRoot->right;
+    root->left->father = root;
     leftRoot->right = root;
     if(RB->firstRoot->father != RB->nullRoot) RB->firstRoot = RB->firstRoot->father;
     // Obs.: teremos que retornar para um dos ponteiros do pai do nó rotacionado.

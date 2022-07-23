@@ -49,5 +49,5 @@ void AverageCase(int n){
 
 int main(){
     WorstCase();
-    AverageCase(1);
+    AverageCase(4);
 }
