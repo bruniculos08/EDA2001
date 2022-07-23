@@ -20,7 +20,7 @@ int countSteps;
 
 // Regras da árvore rubro negra:
 // 1. Todo nó é vermelho ou preto
-// 2. A nó raiz sempre será preto
+// 2. O nó raiz sempre será preto
 // 3. Todo nó folha é preto
 // 4. Se um nó é vermelho então ambos os seus filhos são pretos
 // 5. Todos os caminhos de um nó até cada uma das suas folhas possui a mesma quantidade de nós pretos

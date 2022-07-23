@@ -19,7 +19,7 @@ for line in lines:
 xpoints = np.array([x for x in range(0, 100)])
 ypoints = np.array(averageVector)
 
-plt.plot(xpoints, ypoints)
+plt.plot(xpoints, ypoints, label="Average")
 f.close()
 
 # (3) Gráfico do pior caso da árvore Rubro-Negra:
@@ -37,11 +37,12 @@ for line in lines:
 xpoints = np.array([x for x in range(0, 100)])
 ypoints = np.array(worstVector)
 
-plt.plot(xpoints, ypoints)
+plt.plot(xpoints, ypoints, label="Worst")
 
 plt.title("Average Case vs Worst Case")
 plt.xlabel("Elementos na árvore")
 plt.ylabel("Etapas")
+plt.legend(loc="upper left")
 plt.savefig(generalPath + "Graphics\\RedBlackTree.png")
 
 f.close()
