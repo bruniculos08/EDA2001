@@ -38,8 +38,10 @@ xpoints = np.array([x for x in range(0, 100)])
 ypoints = np.array(worstVector)
 
 plt.plot(xpoints, ypoints)
+
 plt.title("Average Case vs Worst Case")
 plt.xlabel("Elementos na árvore")
 plt.ylabel("Etapas")
 plt.savefig(generalPath + "Graphics\\RedBlackTree.png")
+
 f.close()
