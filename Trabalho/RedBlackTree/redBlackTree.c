@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "redBlackTree.h"
-int countSteps = 0;
 
 void printTree(tree *RB, node *root){
     if(root == RB->nullRoot) return;
@@ -41,7 +40,7 @@ node *createNode(tree *RB, node *father, int number){
 void addNode(tree *RB, int number){
     node *auxNode = RB->firstRoot;
 
-    if(auxNode == NULL || auxNode == RB->nullRoot){
+    if(auxNode == NULL || auxNode == RB->nullRoot){ 
         RB->firstRoot = createNode(RB, RB->nullRoot, number);
         balance(RB, RB->firstRoot);
         return;
@@ -58,17 +57,12 @@ void addNode(tree *RB, int number){
             balance(RB, auxNode->left);
             return;
         }
-        else if(auxNode->number <= number){ 
-            auxNode = auxNode->right;
-        }
+        else if(auxNode->number <= number) auxNode = auxNode->right;
         else auxNode = auxNode->left;
-        printf("Adding Step line 65\n");
-        countSteps++;
     }
 }
 
 node *searchNode(tree *RB, node *root, int number){
-    countSteps++;
     if(root->number == number || root == RB->nullRoot) return root;
     else if(root->number > number) return searchNode(RB, root->left, number);
     else return searchNode(RB, root->right, number);
@@ -86,10 +80,9 @@ node *uncle(tree *RB, node *root){
 }
 
 void balance(tree *RB, node *root){
-    
+
     // Caso (0): root é o nó incial (raiz da árvore)
     if(root->father == RB->nullRoot){
-        countSteps++;
         root->color = black;
         return;
     }
@@ -99,10 +92,6 @@ void balance(tree *RB, node *root){
     // Obs.: Suponha que o nó argumento da função é sempre vermelho, visto que...
     // ... será sempre um nó recém adicionado (ao menos inicialmente):
     while(root->father->color == red && root->color == red){
-        countSteps++;
-        printf("Adding Step line 103\n");    
-        mantainTreeRoot(RB);
-
         node *fatherRoot = root->father;
         node *grandRoot = grandFather(RB, root);
         node *uncleRoot = uncle(RB, root);
@@ -324,7 +313,6 @@ node *auxRemoveNode(tree *RB, node *son){
 // Avisar sobre o problema de rotação em inserções para o professor:
 
 void rotateLeft(tree *RB, node *root){
-    countSteps++;
     if(root == RB->nullRoot) return;
     node *rightRoot;
     rightRoot = root->right;
@@ -340,7 +328,6 @@ void rotateLeft(tree *RB, node *root){
 }
 
 void rotateRight(tree *RB, node *root){
-    countSteps++;
     if(root == RB->nullRoot) return;
     node *leftRoot;
     leftRoot = root->left;
