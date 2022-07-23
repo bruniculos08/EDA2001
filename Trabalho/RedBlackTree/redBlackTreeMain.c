@@ -10,41 +10,36 @@ void printSteps(FILE *filePointer){
 }
 
 void WorstCase(){
-    tree *RB;
-    RB = createTree();
     FILE *filePointer;
     filePointer = fopen("PerformanceWorstCase.txt", "w+");
+    tree *RB;
+    RB = createTree();
 
     for(int i = 0; i < 100; i++){
         addNode(RB, i);
         printSteps(filePointer);
-        if(i != 99) fprintf(filePointer, "\n");
     }
+    fprintf(filePointer, "\n");
+
+    free(RB);
 }
 
 void AverageCase(int n){
     FILE *filePointer;
     filePointer = fopen("PerformanceAverageCase.txt", "w+");
-
+    tree *RB;
     srand(time(NULL));
-
     for(int i = 0; i < n; i++){
-        tree *RB;
         RB = createTree();
-
         for(int j = 0; j < 100; j++){
-            //fprintf(filePointer, "Caso %i: ", j);
             int random = rand()%100;
             addNode(RB, random);
-            printf("Caso %i (random = %i): %i \n", j, random, countSteps);
+            printSteps(filePointer);
             countSteps = 0;
-            mantainTreeRoot(RB);
         }
         free(RB);
         RB = NULL;
     }
-    
-    
 }
 
 int main(){

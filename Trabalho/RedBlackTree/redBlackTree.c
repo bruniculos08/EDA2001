@@ -43,12 +43,14 @@ void addNode(tree *RB, int number){
     node *auxNode = RB->firstRoot;
 
     if(auxNode == NULL || auxNode == RB->nullRoot){ 
+        countSteps++;
         RB->firstRoot = createNode(RB, RB->nullRoot, number);
         balance(RB, RB->firstRoot);
         return;
     }
 
     while(true){
+        countSteps++;
         if(auxNode->number <= number && (auxNode->right == RB->nullRoot || auxNode->right == NULL)){ 
             auxNode->right = createNode(RB, auxNode, number);
             balance(RB, auxNode->right);
@@ -61,7 +63,6 @@ void addNode(tree *RB, int number){
         }
         else if(auxNode->number <= number) auxNode = auxNode->right;
         else auxNode = auxNode->left;
-        countSteps++;
     }
 }
 
