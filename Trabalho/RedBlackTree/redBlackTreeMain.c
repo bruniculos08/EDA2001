@@ -32,11 +32,10 @@ void AverageCase(int n){
     for(int i = 0; i < n; i++){
         RB = createTree();
         for(int j = 0; j < 100; j++){
-            int random = rand()%100;
-            addNode(RB, random);
+            addNode(RB, rand());
             printSteps(filePointer);
-            countSteps = 0;
         }
+        if(i != n-1) fprintf(filePointer, "\n");
         free(RB);
         RB = NULL;
     }
@@ -44,5 +43,5 @@ void AverageCase(int n){
 
 int main(){
     WorstCase();
-    AverageCase(4);
+    AverageCase(10);
 }
