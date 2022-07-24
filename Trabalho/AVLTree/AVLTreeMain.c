@@ -13,7 +13,7 @@ void worstCase(){
     AVL = createTree();
     FILE *filePointer;
     filePointer = fopen("PerformanceWorstCase.txt", "w+");
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < 1000; i++){
         addNode(AVL, i);
         printSteps(filePointer);
     }
@@ -27,7 +27,7 @@ void averageCase(int n){
 
     for(int i = 0; i < n; i++){
         AVL = createTree();
-        for(int j = 0; j < 100; j++){
+        for(int j = 0; j < 1000; j++){
             addNode(AVL, rand());
             printSteps(filePointer);
         }
@@ -39,5 +39,5 @@ void averageCase(int n){
 
 int main(){
     worstCase();
-    averageCase(5);
+    averageCase(10);
 }

@@ -15,7 +15,7 @@ void WorstCase(){
     tree *RB;
     RB = createTree();
 
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < 1000; i++){
         addNode(RB, i);
         printSteps(filePointer);
     }
@@ -31,7 +31,7 @@ void AverageCase(int n){
     srand(time(NULL));
     for(int i = 0; i < n; i++){
         RB = createTree();
-        for(int j = 0; j < 100; j++){
+        for(int j = 0; j < 1000; j++){
             addNode(RB, rand());
             printSteps(filePointer);
         }

@@ -16,7 +16,7 @@ void WorstCase(){
     ArvoreB *B;
     B = criaArvore(ORDEM);
 
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < 1000; i++){
         adicionaChave(B, i);   
         printSteps(filePointer);
         
@@ -32,9 +32,9 @@ void AverageCase(int n){
     srand(time(NULL));
     for(int i = 0; i < n; i++){
         B = criaArvore(ORDEM);
-        for(int j = 0; j < 100; j++){
+        for(int j = 0; j < 1000; j++){
             
-            adicionaChave(B, rand() %1001);
+            adicionaChave(B, rand());
             printSteps(filePointer);    
         }
     
