@@ -93,16 +93,20 @@ f.close()
 # (8) Plotando todos os gráficos em um só:
 
 plt.plot(xpointsAverageRB, ypointsAverageRB, label="Average (RB)")
-
-plt.plot(xpointsWorstRB, ypointsWorstRB, label="Worst (RB)")
-
 plt.plot(xpointsAverageAVL, ypointsAverageAVL, label="Average (AVL)")
-
-plt.plot(xpointsWorstAVL, ypointsWorstAVL, label="Worst (AVL)")
-
-plt.title("Average Case vs Worst Case")
+plt.title("Average Cases")
 plt.xlabel("Elementos na árvore")
 plt.ylabel("Etapas")
 plt.legend(loc="upper left")
-plt.savefig(generalPath + "Graphics\\AllTrees.png")
+plt.savefig(generalPath + "Graphics\\AllTreesAverage.png")
+plt.close()
+
+plt.plot(xpointsWorstRB, ypointsWorstRB, label="Worst (RB)")
+plt.plot(xpointsWorstAVL, ypointsWorstAVL, label="Worst (AVL)")
+
+plt.title("Worst Cases")
+plt.xlabel("Elementos na árvore")
+plt.ylabel("Etapas")
+plt.legend(loc="upper left")
+plt.savefig(generalPath + "Graphics\\AllTreesWorst.png")
 plt.close()
