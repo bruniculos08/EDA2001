@@ -58,8 +58,10 @@ int nodeHeight(node *root){
 
 void balance(tree *AVL, node *root){
     
-    while(root->father != NULL || abs(balanceFactor(root)) > 1){
+    while(root != NULL){
         countSteps++;
+        //printf("root = %i and first = %i\n", root->number, AVL->firstRoot->number);
+
         // (1) Se o nó não existir:
         if(root == NULL) return;
 
@@ -77,6 +79,7 @@ void balance(tree *AVL, node *root){
             // ... está balanceado e então deixa-lo o mais balanceado possível.
             if(balanceFactor(root->right) > 0) rotateRight(AVL, root->right);
             rotateLeft(AVL, root);
+
         }
         root = root->father;
     }
