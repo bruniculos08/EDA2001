@@ -16,7 +16,7 @@ for line in lines:
     for j in range(len(vector)):
         averageVector[j] += float(vector[j])/10
 
-xpoints = np.array([x for x in range(0, 100)])
+xpoints = np.array([x for x in range(0, len(averageVector))])
 ypoints = np.array(averageVector)
 
 plt.plot(xpoints, ypoints, label="Average")
@@ -34,7 +34,7 @@ for line in lines:
     for j in range(len(vector)):
         worstVector[j] = float(vector[j])
 
-xpoints = np.array([x for x in range(0, 100)])
+xpoints = np.array([x for x in range(0, len(averageVector))])
 ypoints = np.array(worstVector)
 
 plt.plot(xpoints, ypoints, label="Worst")
