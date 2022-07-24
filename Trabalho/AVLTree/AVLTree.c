@@ -1,6 +1,6 @@
 #include "stdio.h"
 #include "stdlib.h"
-#include "BinaryTree.h"
+#include "AVLTree.h"
 #include "stdbool.h"
 int countSteps = 0;
 

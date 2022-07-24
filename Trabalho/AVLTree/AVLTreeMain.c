@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include "BinaryTree.h"
+#include "AVLTree.h"
 
 void printSteps(FILE *filePointer){
     fprintf(filePointer, "%i ", countSteps);
