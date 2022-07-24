@@ -26,6 +26,7 @@ void averageCase(int n){
     srand(time(NULL));
 
     for(int i = 0; i < n; i++){
+        AVL = createTree();
         for(int j = 0; j < 100; j++){
             addNode(AVL, rand());
             printSteps(filePointer);
@@ -37,15 +38,6 @@ void averageCase(int n){
 }
 
 int main(){
-    tree *AVL;
-    AVL = createTree();
-    srand(time(NULL));
-    addNode(AVL, 2);
-    addNode(AVL, 4);
-    addNode(AVL, 7);
-    addNode(AVL, 8);
-    addNode(AVL, 11);
-    addNode(AVL, 10);
-    addNode(AVL, 6);
-    printTree(AVL->firstRoot);
+    worstCase();
+    averageCase(5);
 }

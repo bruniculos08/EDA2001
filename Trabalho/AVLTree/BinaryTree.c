@@ -11,6 +11,7 @@ void printTree(node *root){
 
 void addNode(tree *AVL, int number){
     if(AVL->firstRoot == NULL){
+        countSteps++;
         AVL->firstRoot = createNode(NULL, number);
         return;
     }
@@ -18,6 +19,7 @@ void addNode(tree *AVL, int number){
     node *auxNode = AVL->firstRoot;
 
     while(true){
+        countSteps++;
         if(auxNode->number <= number && auxNode->right == NULL){
             auxNode->right = createNode(auxNode, number);
             auxNode = auxNode->right;
@@ -56,6 +58,7 @@ int nodeHeight(node *root){
 void balance(tree *AVL, node *root){
     
     while(root->father != NULL || abs(balanceFactor(root)) > 1){
+        countSteps++;
         // (1) Se o nó não existir:
         if(root == NULL) return;
 
@@ -71,9 +74,7 @@ void balance(tree *AVL, node *root){
         if(balanceFactor(root) <= -2){
             // Obs.: deve-se verificar se o nó filho que será afetado diretamente pela rotação...
             // ... está balanceado e então deixa-lo o mais balanceado possível.
-            if(balanceFactor(root->right) > 0){
-                rotateRight(AVL, root->right);
-            }
+            if(balanceFactor(root->right) > 0) rotateRight(AVL, root->right);
             rotateLeft(AVL, root);
         }
         root = root->father;
@@ -98,6 +99,7 @@ tree *createTree(){
 }
 
 void rotateLeft(tree *AVL, node *root){
+    countSteps++;
     if(root == NULL) return;
     node *rightRoot;
     rightRoot = root->right;
@@ -114,6 +116,7 @@ void rotateLeft(tree *AVL, node *root){
 }
 
 void rotateRight(tree *AVL, node *root){
+    countSteps++;
     if(root == NULL) return;
     node *leftRoot;
     leftRoot = root->left;

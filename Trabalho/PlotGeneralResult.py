@@ -19,7 +19,7 @@ for line in lines:
 xpoints = np.array([x for x in range(0, len(averageVector))])
 ypoints = np.array(averageVector)
 
-plt.plot(xpoints, ypoints, label="Average")
+plt.plot(xpoints, ypoints, label="Average (Red-Black)")
 f.close()
 
 # (3) Gráfico do pior caso da árvore Rubro-Negra:
@@ -37,12 +37,47 @@ for line in lines:
 xpoints = np.array([x for x in range(0, len(averageVector))])
 ypoints = np.array(worstVector)
 
-plt.plot(xpoints, ypoints, label="Worst")
+plt.plot(xpoints, ypoints, label="Worst (Red-Black)")
+f.close()
+
+# (4) Gráfico do caso médio da árvore AVL:
+
+with open(generalPath + "AVLTree\\PerformanceAverageCase.txt", 'r') as f:
+    lines = f.readlines()
+
+averageVector = [0 for i in range(len(lines[0].split()))]
+
+for line in lines:
+    vector = line.split()
+    for j in range(len(vector)):
+        averageVector[j] += float(vector[j])/10
+
+xpoints = np.array([x for x in range(0, len(averageVector))])
+ypoints = np.array(averageVector)
+
+plt.plot(xpoints, ypoints, label="Average (AVL)")
+f.close()
+
+# (5) Gráfico do pior caso da árvore AVL:
+
+with open(generalPath + "AVLTree\\PerformanceWorstCase.txt", 'r') as f:
+    lines = f.readlines()
+
+worstVector = [0 for i in range(len(lines[0].split()))]
+
+for line in lines:
+    vector = line.split()
+    for j in range(len(vector)):
+        worstVector[j] = float(vector[j])
+
+xpoints = np.array([x for x in range(0, len(averageVector))])
+ypoints = np.array(worstVector)
+
+plt.plot(xpoints, ypoints, label="Worst (AVL)")
 
 plt.title("Average Case vs Worst Case")
 plt.xlabel("Elementos na árvore")
 plt.ylabel("Etapas")
 plt.legend(loc="upper left")
-plt.savefig(generalPath + "Graphics\\RedBlackTree.png")
-
+plt.savefig(generalPath + "Graphics\\AllTrees.png")
 f.close()
