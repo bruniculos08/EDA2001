@@ -10,7 +10,6 @@ typedef struct Tree tree;
 struct Tree{
     node *firstRoot; 
 };
-
 int countSteps;
 
 void printTree(node *root);

@@ -2,6 +2,7 @@
 #include "stdlib.h"
 #include "BinaryTree.h"
 #include "stdbool.h"
+int countSteps = 0;
 
 void printTree(node *root){
     printf("%i ", root->number);
