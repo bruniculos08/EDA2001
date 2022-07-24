@@ -21,6 +21,7 @@ for line in lines:
 xpointsAverageRB = np.array([x for x in range(0, len(averageVectorRB))])
 ypointsAverageRB = np.array(averageVectorRB)
 
+plt.xticks(range(0, len(xpointsAverageRB)+1, 100))
 plt.plot(xpointsAverageRB, ypointsAverageRB, label="Average (Red-Black)", linewidth=0.6)
 f.close()
 
@@ -160,7 +161,7 @@ plt.savefig(generalPath + "Graphics\\AllTreesWorst.png")
 plt.close()
 
 xAxis = np.linspace(1, len(worstVectorB))
-plt.plot(xAxis, np.log2(xAxis), label="log(n) em base 2")
+plt.plot(xAxis, np.log2(xAxis), label="log(n) em base 2", linewidth=0.6)
 
 plt.plot(xpointsAverageRB, ypointsAverageRB, label="Average (RB)", linewidth=0.6)
 plt.plot(xpointsAverageAVL, ypointsAverageAVL, label="Average (AVL)", linewidth=0.6)

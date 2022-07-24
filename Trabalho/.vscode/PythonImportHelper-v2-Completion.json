@@ -40,7 +40,7 @@
         "kind": 5,
         "importPath": "PlotResults",
         "description": "PlotResults",
-        "peekOfCode": "averageVectorRB = [0 for i in range(len(lines[0].split()))]\nfor line in lines:\n    vector = line.split()\n    for j in range(len(vector)):\n        averageVectorRB[j] += float(vector[j])/10\nxpointsAverageRB = np.array([x for x in range(0, len(averageVectorRB))])\nypointsAverageRB = np.array(averageVectorRB)\nplt.plot(xpointsAverageRB, ypointsAverageRB, label=\"Average (Red-Black)\", linewidth=0.6)\nf.close()\n# (3) Gráfico do pior caso da árvore Rubro-Negra:",
+        "peekOfCode": "averageVectorRB = [0 for i in range(len(lines[0].split()))]\nfor line in lines:\n    vector = line.split()\n    for j in range(len(vector)):\n        averageVectorRB[j] += float(vector[j])/10\nxpointsAverageRB = np.array([x for x in range(0, len(averageVectorRB))])\nypointsAverageRB = np.array(averageVectorRB)\nplt.xticks(range(0, len(xpointsAverageRB)+1, 100))\nplt.plot(xpointsAverageRB, ypointsAverageRB, label=\"Average (Red-Black)\", linewidth=0.6)\nf.close()",
         "detail": "PlotResults",
         "documentation": {}
     },
@@ -49,7 +49,7 @@
         "kind": 5,
         "importPath": "PlotResults",
         "description": "PlotResults",
-        "peekOfCode": "xpointsAverageRB = np.array([x for x in range(0, len(averageVectorRB))])\nypointsAverageRB = np.array(averageVectorRB)\nplt.plot(xpointsAverageRB, ypointsAverageRB, label=\"Average (Red-Black)\", linewidth=0.6)\nf.close()\n# (3) Gráfico do pior caso da árvore Rubro-Negra:\nwith open(generalPath + \"RedBlackTree\\\\PerformanceWorstCase.txt\", 'r') as f:\n    lines = f.readlines()\nworstVectorRB = [0 for i in range(len(lines[0].split()))]\nfor line in lines:\n    vector = line.split()",
+        "peekOfCode": "xpointsAverageRB = np.array([x for x in range(0, len(averageVectorRB))])\nypointsAverageRB = np.array(averageVectorRB)\nplt.xticks(range(0, len(xpointsAverageRB)+1, 100))\nplt.plot(xpointsAverageRB, ypointsAverageRB, label=\"Average (Red-Black)\", linewidth=0.6)\nf.close()\n# (3) Gráfico do pior caso da árvore Rubro-Negra:\nwith open(generalPath + \"RedBlackTree\\\\PerformanceWorstCase.txt\", 'r') as f:\n    lines = f.readlines()\nworstVectorRB = [0 for i in range(len(lines[0].split()))]\nfor line in lines:",
         "detail": "PlotResults",
         "documentation": {}
     },
@@ -58,7 +58,7 @@
         "kind": 5,
         "importPath": "PlotResults",
         "description": "PlotResults",
-        "peekOfCode": "ypointsAverageRB = np.array(averageVectorRB)\nplt.plot(xpointsAverageRB, ypointsAverageRB, label=\"Average (Red-Black)\", linewidth=0.6)\nf.close()\n# (3) Gráfico do pior caso da árvore Rubro-Negra:\nwith open(generalPath + \"RedBlackTree\\\\PerformanceWorstCase.txt\", 'r') as f:\n    lines = f.readlines()\nworstVectorRB = [0 for i in range(len(lines[0].split()))]\nfor line in lines:\n    vector = line.split()\n    for j in range(len(vector)):",
+        "peekOfCode": "ypointsAverageRB = np.array(averageVectorRB)\nplt.xticks(range(0, len(xpointsAverageRB)+1, 100))\nplt.plot(xpointsAverageRB, ypointsAverageRB, label=\"Average (Red-Black)\", linewidth=0.6)\nf.close()\n# (3) Gráfico do pior caso da árvore Rubro-Negra:\nwith open(generalPath + \"RedBlackTree\\\\PerformanceWorstCase.txt\", 'r') as f:\n    lines = f.readlines()\nworstVectorRB = [0 for i in range(len(lines[0].split()))]\nfor line in lines:\n    vector = line.split()",
         "detail": "PlotResults",
         "documentation": {}
     },
@@ -202,7 +202,7 @@
         "kind": 5,
         "importPath": "PlotResults",
         "description": "PlotResults",
-        "peekOfCode": "xAxis = np.linspace(1, len(worstVectorB))\nplt.plot(xAxis, np.log2(xAxis), label=\"log(n) em base 2\")\nplt.plot(xpointsAverageRB, ypointsAverageRB, label=\"Average (RB)\", linewidth=0.6)\nplt.plot(xpointsAverageAVL, ypointsAverageAVL, label=\"Average (AVL)\", linewidth=0.6)\nplt.plot(xpointsAverageB, ypointsAverageB, label=\"Average (B)\", linewidth=0.6)\n#plt.plot(xpointsWorstRB, ypointsWorstRB, label=\"Worst (RB)\")\n#plt.plot(xpointsWorstAVL, ypointsWorstAVL, label=\"Worst (AVL)\")\n#plt.plot(xpointsWorstB, ypointsWorstB, label=\"Worst (B)\")\n#plt.style.use(\"seaborn\")\nplt.title(\"Average Cases vs log(n)\")",
+        "peekOfCode": "xAxis = np.linspace(1, len(worstVectorB))\nplt.plot(xAxis, np.log2(xAxis), label=\"log(n) em base 2\", linewidth=0.6)\nplt.plot(xpointsAverageRB, ypointsAverageRB, label=\"Average (RB)\", linewidth=0.6)\nplt.plot(xpointsAverageAVL, ypointsAverageAVL, label=\"Average (AVL)\", linewidth=0.6)\nplt.plot(xpointsAverageB, ypointsAverageB, label=\"Average (B)\", linewidth=0.6)\n#plt.plot(xpointsWorstRB, ypointsWorstRB, label=\"Worst (RB)\")\n#plt.plot(xpointsWorstAVL, ypointsWorstAVL, label=\"Worst (AVL)\")\n#plt.plot(xpointsWorstB, ypointsWorstB, label=\"Worst (B)\")\n#plt.style.use(\"seaborn\")\nplt.title(\"Average Cases vs log(n)\")",
         "detail": "PlotResults",
         "documentation": {}
     }
