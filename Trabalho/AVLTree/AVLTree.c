@@ -38,6 +38,7 @@ void addNode(tree *AVL, int number){
 }
 
 int balanceFactor(node *root){
+    countSteps++;
     if(root == NULL) return -1;
     return nodeHeight(root->left) - nodeHeight(root->right);
 }

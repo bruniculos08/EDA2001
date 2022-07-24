@@ -18,6 +18,15 @@
         "documentation": {}
     },
     {
+        "label": "math",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "math",
+        "description": "math",
+        "detail": "math",
+        "documentation": {}
+    },
+    {
         "label": "generalPath",
         "kind": 5,
         "importPath": "PlotResults",
@@ -130,7 +139,70 @@
         "kind": 5,
         "importPath": "PlotResults",
         "description": "PlotResults",
-        "peekOfCode": "ypointsWorstAVL = np.array(worstVectorAVL)\nplt.plot(xpointsWorstAVL, ypointsWorstAVL, label=\"Worst (AVL)\")\nplt.title(\"Average Case vs Worst Case\")\nplt.xlabel(\"Elementos na árvore\")\nplt.ylabel(\"Etapas\")\nplt.legend(loc=\"upper left\")\nplt.savefig(generalPath + \"Graphics\\\\AVLTree.png\")\nplt.close()\nf.close()\n# (8) Plotando todos os gráficos em um só:",
+        "peekOfCode": "ypointsWorstAVL = np.array(worstVectorAVL)\nplt.plot(xpointsWorstAVL, ypointsWorstAVL, label=\"Worst (AVL)\")\nplt.title(\"Average Case vs Worst Case\")\nplt.xlabel(\"Elementos na árvore\")\nplt.ylabel(\"Etapas\")\nplt.legend(loc=\"upper left\")\nplt.savefig(generalPath + \"Graphics\\\\AVLTree.png\")\nplt.close()\nf.close()\n# (6) Gráfico do caso médio da árvore B:",
+        "detail": "PlotResults",
+        "documentation": {}
+    },
+    {
+        "label": "averageVectorB",
+        "kind": 5,
+        "importPath": "PlotResults",
+        "description": "PlotResults",
+        "peekOfCode": "averageVectorB = [0 for i in range(len(lines[0].split()))]\nfor line in lines:\n    vector = line.split()\n    for j in range(len(vector)):\n        averageVectorB[j] = float(vector[j])\nxpointsAverageB = np.array([x for x in range(0, len(averageVectorB))])\nypointsAverageB = np.array(averageVectorB)\nplt.plot(xpointsAverageB, ypointsAverageB, label=\"Average (B)\")\nf.close()\n# (7) Gráfico do pior caso da árvore B:",
+        "detail": "PlotResults",
+        "documentation": {}
+    },
+    {
+        "label": "xpointsAverageB",
+        "kind": 5,
+        "importPath": "PlotResults",
+        "description": "PlotResults",
+        "peekOfCode": "xpointsAverageB = np.array([x for x in range(0, len(averageVectorB))])\nypointsAverageB = np.array(averageVectorB)\nplt.plot(xpointsAverageB, ypointsAverageB, label=\"Average (B)\")\nf.close()\n# (7) Gráfico do pior caso da árvore B:\nwith open(generalPath + \"BTree\\\\PerformanceWorstCase.txt\", 'r') as f:\n    lines = f.readlines()\nworstVectorB = [0 for i in range(len(lines[0].split()))]\nfor line in lines:\n    vector = line.split()",
+        "detail": "PlotResults",
+        "documentation": {}
+    },
+    {
+        "label": "ypointsAverageB",
+        "kind": 5,
+        "importPath": "PlotResults",
+        "description": "PlotResults",
+        "peekOfCode": "ypointsAverageB = np.array(averageVectorB)\nplt.plot(xpointsAverageB, ypointsAverageB, label=\"Average (B)\")\nf.close()\n# (7) Gráfico do pior caso da árvore B:\nwith open(generalPath + \"BTree\\\\PerformanceWorstCase.txt\", 'r') as f:\n    lines = f.readlines()\nworstVectorB = [0 for i in range(len(lines[0].split()))]\nfor line in lines:\n    vector = line.split()\n    for j in range(len(vector)):",
+        "detail": "PlotResults",
+        "documentation": {}
+    },
+    {
+        "label": "worstVectorB",
+        "kind": 5,
+        "importPath": "PlotResults",
+        "description": "PlotResults",
+        "peekOfCode": "worstVectorB = [0 for i in range(len(lines[0].split()))]\nfor line in lines:\n    vector = line.split()\n    for j in range(len(vector)):\n        worstVectorB[j] = float(vector[j])\nxpointsWorstB = np.array([x for x in range(0, len(worstVectorB))])\nypointsWorstB = np.array(worstVectorB)\nplt.plot(xpointsWorstB, ypointsWorstB, label=\"Worst (B)\")\nplt.title(\"Average Case vs Worst Case\")\nplt.xlabel(\"Elementos na árvore\")",
+        "detail": "PlotResults",
+        "documentation": {}
+    },
+    {
+        "label": "xpointsWorstB",
+        "kind": 5,
+        "importPath": "PlotResults",
+        "description": "PlotResults",
+        "peekOfCode": "xpointsWorstB = np.array([x for x in range(0, len(worstVectorB))])\nypointsWorstB = np.array(worstVectorB)\nplt.plot(xpointsWorstB, ypointsWorstB, label=\"Worst (B)\")\nplt.title(\"Average Case vs Worst Case\")\nplt.xlabel(\"Elementos na árvore\")\nplt.ylabel(\"Etapas\")\nplt.legend(loc=\"upper left\")\nplt.savefig(generalPath + \"Graphics\\\\BTree.png\")\nplt.close()\nf.close()",
+        "detail": "PlotResults",
+        "documentation": {}
+    },
+    {
+        "label": "ypointsWorstB",
+        "kind": 5,
+        "importPath": "PlotResults",
+        "description": "PlotResults",
+        "peekOfCode": "ypointsWorstB = np.array(worstVectorB)\nplt.plot(xpointsWorstB, ypointsWorstB, label=\"Worst (B)\")\nplt.title(\"Average Case vs Worst Case\")\nplt.xlabel(\"Elementos na árvore\")\nplt.ylabel(\"Etapas\")\nplt.legend(loc=\"upper left\")\nplt.savefig(generalPath + \"Graphics\\\\BTree.png\")\nplt.close()\nf.close()\n# (8) Plotando todos os gráficos em um só:",
+        "detail": "PlotResults",
+        "documentation": {}
+    },
+    {
+        "label": "xAxis",
+        "kind": 5,
+        "importPath": "PlotResults",
+        "description": "PlotResults",
+        "peekOfCode": "xAxis = np.linspace(1, 100)\nplt.plot(xAxis, np.log2(xAxis), label=\"log(n) em base 2\")\nplt.plot(xpointsAverageRB, ypointsAverageRB, label=\"Average (RB)\")\nplt.plot(xpointsAverageAVL, ypointsAverageAVL, label=\"Average (AVL)\")\nplt.plot(xpointsAverageB, ypointsAverageB, label=\"Average (B)\")\n#plt.plot(xpointsWorstRB, ypointsWorstRB, label=\"Worst (RB)\")\n#plt.plot(xpointsWorstAVL, ypointsWorstAVL, label=\"Worst (AVL)\")\n#plt.plot(xpointsWorstB, ypointsWorstB, label=\"Worst (B)\")\nplt.title(\"Average Cases vs log(n)\")\nplt.xlabel(\"Elementos na árvore\")",
         "detail": "PlotResults",
         "documentation": {}
     }

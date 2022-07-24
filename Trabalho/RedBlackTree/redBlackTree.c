@@ -73,10 +73,12 @@ node *searchNode(tree *RB, node *root, int number){
 }
 
 node *grandFather(tree *RB, node *root){
+    countSteps++;
     return root->father->father;
 }
 
 node *uncle(tree *RB, node *root){
+    countSteps++;
     node *auxNode = grandFather(RB, root);
     if(auxNode == RB->nullRoot) return RB->nullRoot;
     else if(root->father == auxNode->left) return auxNode->right;
