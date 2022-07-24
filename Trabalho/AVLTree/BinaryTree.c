@@ -18,7 +18,6 @@ void addNode(tree *AVL, int number){
     node *auxNode = AVL->firstRoot;
 
     while(true){
-        printf("Line 21\n");
         if(auxNode->number <= number && auxNode->right == NULL){
             auxNode->right = createNode(auxNode, number);
             auxNode = auxNode->right;
@@ -32,8 +31,7 @@ void addNode(tree *AVL, int number){
         else if(auxNode->number <= number) auxNode = auxNode->right;
         else auxNode = auxNode->left;
     }
-    printf("Line 35\n");
-    balanceUp(AVL, auxNode);
+    balance(AVL, auxNode);
 }
 
 int balanceFactor(node *root){
@@ -56,63 +54,33 @@ int nodeHeight(node *root){
 }
 
 void balance(tree *AVL, node *root){
-    // (1) Se o nó não existir:
-    if(root == NULL) return;
+    
+    while(root->father != NULL || abs(balanceFactor(root)) > 1){
+        // (1) Se o nó não existir:
+        if(root == NULL) return;
 
-    // (2) Se o nó está desbalanceado em 2 para à esquerda:
-    if(balanceFactor(root) == 2){
-        // Obs.: deve-se verificar se o nó filho que será afetado diretamente pela rotação...
-        // ... está balanceado e então deixa-lo o mais balanceado possível..
-        if(balanceFactor(root->left) > 0) rotateRight(AVL, root->left);
-        rotateRight(AVL, root);
-        return;
-    }
+        // (2) Se o nó está desbalanceado em 2 (ou mais) para à esquerda:
+        if(balanceFactor(root) >= 2){
+            // Obs.: deve-se verificar se o nó filho que será afetado diretamente pela rotação...
+            // ... está balanceado e então deixa-lo o mais balanceado possível..
+            if(balanceFactor(root->left) > 0) rotateRight(AVL, root->left);
+            rotateRight(AVL, root);
+        }   
 
-    // (3) Se o nó está desbalanceado em 2 para à direita:
-    if(balanceFactor(root) == -2){
-        // Obs.: deve-se verificar se o nó filho que será afetado diretamente pela rotação...
-        // ... está balanceado e então deixa-lo o mais balanceado possível.
-        if(balanceFactor(root->right) > 0){
-            rotateRight(AVL, root->right);
+        // (3) Se o nó está desbalanceado em -2 (ou menos) para à direita:
+        if(balanceFactor(root) <= -2){
+            // Obs.: deve-se verificar se o nó filho que será afetado diretamente pela rotação...
+            // ... está balanceado e então deixa-lo o mais balanceado possível.
+            if(balanceFactor(root->right) > 0){
+                rotateRight(AVL, root->right);
+            }
+            rotateLeft(AVL, root);
         }
-        rotateLeft(AVL, root);
-        return;
-    }
-        
-    // (4) Se o nó está desbalanceado em mais de 2 para à esquerda:
-    if(balanceFactor(root) > 2){
-        // Obs.: nesses casos deve se rotacionar o nó atual antes de seus filhos,...
-        // ... pois se rotacionarmos primeiro o filho o balanceamento pode não funcionar.
-        rotateRight(AVL, root);
         root = root->father;
-        if(balanceFactor(root->left) > 0) rotateRight(AVL, root->left);
-        else rotateLeft(AVL, root->left);
-        return;
     }
-
-    // (5) Se o nó está desbalanceado em mais de 2 para à direita:
-    if(balanceFactor(root) < -2){
-        // Obs.: nesses casos deve se rotacionar o nó atual antes de seus filhos,...
-        // ... pois se rotacionarmos primeiro o filho o balanceamento pode não funcionar.
-        rotateLeft(AVL, root);
-        root = root->father;
-        if(balanceFactor(root->right) > 0) rotateRight(AVL, root->right);
-        else rotateLeft(AVL, root->right);
-        return;
-    }
-}
-
-void balanceUp(tree *AVL, node *root){
-    node *auxNode;
-    auxNode = root;
-
-    while(auxNode != NULL){
-        balance(AVL, auxNode);
-        auxNode = auxNode->father;
-    }
-
     if(AVL->firstRoot->father != NULL) AVL->firstRoot = AVL->firstRoot->father;
 }
+
 
 node *createNode(node *father, int number){
     node *root = (node *)malloc(sizeof(node));
