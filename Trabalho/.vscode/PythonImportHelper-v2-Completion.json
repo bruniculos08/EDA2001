@@ -205,5 +205,14 @@
         "peekOfCode": "xAxis = np.linspace(1, len(worstVectorB))\nplt.plot(xAxis, np.log2(xAxis), label=\"log(n) em base 2\", linewidth=0.6)\nplt.plot(xpointsAverageRB, ypointsAverageRB, label=\"Average (RB)\", linewidth=0.6)\nplt.plot(xpointsAverageAVL, ypointsAverageAVL, label=\"Average (AVL)\", linewidth=0.6)\nplt.plot(xpointsAverageB, ypointsAverageB, label=\"Average (B)\", linewidth=0.6)\n#plt.plot(xpointsWorstRB, ypointsWorstRB, label=\"Worst (RB)\")\n#plt.plot(xpointsWorstAVL, ypointsWorstAVL, label=\"Worst (AVL)\")\n#plt.plot(xpointsWorstB, ypointsWorstB, label=\"Worst (B)\")\n#plt.style.use(\"seaborn\")\nplt.title(\"Average Cases vs log(n)\")",
         "detail": "PlotResults",
         "documentation": {}
+    },
+    {
+        "label": "xAxis",
+        "kind": 5,
+        "importPath": "PlotResults",
+        "description": "PlotResults",
+        "peekOfCode": "xAxis = np.linspace(1, len(worstVectorB))\nplt.plot(xAxis, np.log2(xAxis), label=\"log(n) em base 2\", linewidth=0.6)\nplt.plot(xpointsWorstRB, ypointsWorstRB, label=\"Worst (RB)\", linewidth=0.6)\nplt.plot(xpointsWorstAVL, ypointsWorstAVL, label=\"Worst (AVL)\", linewidth=0.6)\nplt.plot(xpointsWorstB, ypointsWorstB, label=\"Worst (B)\", linewidth=0.6)\nplt.title(\"Worst Cases vs log(n)\")\nplt.xlabel(\"Elementos na árvore\")\nplt.ylabel(\"Etapas\")\nplt.legend(loc=\"upper left\")\nplt.savefig(generalPath + \"Graphics\\\\LogAndWorst.png\")",
+        "detail": "PlotResults",
+        "documentation": {}
     }
 ]

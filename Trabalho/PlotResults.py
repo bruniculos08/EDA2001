@@ -160,6 +160,8 @@ plt.legend(loc="upper left")
 plt.savefig(generalPath + "Graphics\\AllTreesWorst.png")
 plt.close()
 
+# (9) Comparação entre casos médios e log(n):
+
 xAxis = np.linspace(1, len(worstVectorB))
 plt.plot(xAxis, np.log2(xAxis), label="log(n) em base 2", linewidth=0.6)
 
@@ -176,4 +178,20 @@ plt.xlabel("Elementos na árvore")
 plt.ylabel("Etapas")
 plt.legend(loc="upper left")
 plt.savefig(generalPath + "Graphics\\LogAndAverage.png")
+plt.close()
+
+# (10) Comparação entre piores casos e log(n):
+
+xAxis = np.linspace(1, len(worstVectorB))
+plt.plot(xAxis, np.log2(xAxis), label="log(n) em base 2", linewidth=0.6)
+
+plt.plot(xpointsWorstRB, ypointsWorstRB, label="Worst (RB)", linewidth=0.6)
+plt.plot(xpointsWorstAVL, ypointsWorstAVL, label="Worst (AVL)", linewidth=0.6)
+plt.plot(xpointsWorstB, ypointsWorstB, label="Worst (B)", linewidth=0.6)
+
+plt.title("Worst Cases vs log(n)")
+plt.xlabel("Elementos na árvore")
+plt.ylabel("Etapas")
+plt.legend(loc="upper left")
+plt.savefig(generalPath + "Graphics\\LogAndWorst.png")
 plt.close()
