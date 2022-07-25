@@ -12,8 +12,8 @@ int *insertionSort(int *array, int n){
         keyIndex = i;
         // c. o index do valor antecessor ao atual:
         j = i-1;
-        // (2) Verificando os elementos antecessores do elemento atual:
-        while(j >= 0){
+        // (2) Verificando os elementos antecessores do elemento atual (enquanto forem maiores que o atual):
+        while(j >= 0 && array[j] > key){
             // (2.1) Se o valor de algum elemento anterior é maior que o valor do elemento atual...
             // ... estes elementos trocam de posição (note que se o elemento antecessor do antecessor...
             // ... é maior que o elemento atual isso implica que o antecessor também será, logo o elemento atual...
